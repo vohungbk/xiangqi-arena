@@ -1,9 +1,11 @@
 # Pull Request
 
 ## Related Issue
+
 Closes #
 
 ## Summary
+
 Brief description of what changed and why.
 
 ---
@@ -22,10 +24,10 @@ Brief description of what changed and why.
 
 Copy **every** Acceptance Criteria row from the ticket verbatim, then set `Status` for each.
 
-| ID | Criteria | Spec Ref | Status |
-|----|----------|----------|--------|
-| AC01 | | | **Not run** |
-| AC02 | | | **Not run** |
+| ID   | Criteria | Spec Ref | Status      |
+| ---- | -------- | -------- | ----------- |
+| AC01 |          |          | **Not run** |
+| AC02 |          |          | **Not run** |
 
 ---
 
@@ -34,14 +36,15 @@ Copy **every** Acceptance Criteria row from the ticket verbatim, then set `Statu
 Based on the **actual code changed in this PR**, list each area a change touches (directly or via shared code/hooks/templates), what could break, and the regression scenario that proves it still works.
 
 | Changed file / module | What changed | Who/what depends on it | Potential regression | Regression scenario verified |
-|-----------------------|--------------|------------------------|----------------------|------------------------------|
-| | | | | |
+| --------------------- | ------------ | ---------------------- | -------------------- | ---------------------------- |
+|                       |              |                        |                      |                              |
 
 ---
 
 # Test Coverage
 
 ## Verification checklist
+
 - [ ] `pnpm typecheck` passes
 - [ ] `pnpm lint` passes
 - [ ] `pnpm test` passes (Vitest)
@@ -53,9 +56,9 @@ Based on the **actual code changed in this PR**, list each area a change touches
 
 What did you test manually to verify this change?
 
-| Test scenario | Expected behavior | Actual result | Status |
-|---------------|-------------------|---------------|--------|
-| | | | **Not run** |
+| Test scenario | Expected behavior | Actual result | Status      |
+| ------------- | ----------------- | ------------- | ----------- |
+|               |                   |               | **Not run** |
 
 ## Automated Tests
 
@@ -71,18 +74,43 @@ Additional flows tested based on the Impact Assessment above:
 - [ ] Flow A still works
 - [ ] Flow B still works
 
-## Evidence
+---
 
-**Required:**
+# Evidence
+
+Provide proof for **every** Acceptance Criteria row above. A status without evidence counts as **Not run**.
+
+## Evidence per AC
+
+| AC ID | Evidence type                                 | Evidence (link, file or pasted output) | Status      |
+| ----- | --------------------------------------------- | -------------------------------------- | ----------- |
+| AC01  | Test output / Screenshot / Log / API response |                                        | **Not run** |
+| AC02  |                                               |                                        | **Not run** |
+
+## Command results
+
+| Command          | Exit code |
+| ---------------- | --------- |
+| `pnpm typecheck` |           |
+| `pnpm lint`      |           |
+| `pnpm test`      |           |
+| `pnpm build`     |           |
+
+## Required
+
 - [ ] Test report summary (Vitest run output / report)
+- [ ] Every AC above has at least one evidence entry
 
-**Optional:**
+## Optional
+
 - Screenshots, videos, logs, API responses, etc.
+- Do not include secrets, tokens, OTP codes or PII in evidence.
 
 ---
 
 # Bug Fix Analysis
-*(Required only for bug fixes)*
+
+_(Required only for bug fixes)_
 
 ## Root Cause
 

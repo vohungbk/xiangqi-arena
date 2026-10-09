@@ -57,3 +57,25 @@ packages/
 ## Licence note
 
 `packages/pikafish-wasm` ships Pikafish, which is GPL v3. See its README.
+
+## Git Worktrees
+
+This project uses git worktrees for parallel development.
+
+```bash
+make setup                     # one-time setup (git hooks, pnpm install)
+make worktree-new feat/42-add-search
+make worktree-switch feat/42-add-search
+make worktree-list
+make worktree-rm feat/42-add-search
+```
+
+Worktrees live in `.worktrees/`. Run `pnpm install` inside each new worktree.
+
+## Claude Code Harness
+
+- Rules: `.claude/rules/` (git workflow, security, TypeScript standards, definition of done)
+- Git hooks: `.githooks/` (`post-checkout`, `pre-push` runs typecheck, lint and test)
+- Claude hooks: `.claude/hooks/` (format and typecheck after edits, secret scan before commits)
+- Permissions: `.claude/settings.json`
+- PR template: `.github/PULL_REQUEST_TEMPLATE.md`

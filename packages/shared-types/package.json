@@ -1,0 +1,22 @@
+{
+  "name": "@xiangqi/shared-types",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "dev": "tsc -p tsconfig.build.json --watch",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src --ext .ts",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@xiangqi/config-eslint": "workspace:*",
+    "@xiangqi/config-typescript": "workspace:*",
+    "eslint": "^8.57.1",
+    "typescript": "^5.6.2",
+    "vitest": "^2.1.2"
+  }
+}

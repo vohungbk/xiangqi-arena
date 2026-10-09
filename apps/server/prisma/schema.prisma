@@ -1,0 +1,66 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum GameMode {
+  BLITZ
+  RAPID
+  CLASSIC
+}
+
+model User {
+  id                String    @id @default(uuid())
+  email             String    @unique
+  /// ASCII only, 3-20 chars. Stored lowercase for uniqueness.
+  username          String    @unique
+  usernameChangedAt DateTime?
+  createdAt         DateTime  @default(now())
+
+  ratings         Rating[]
+  oldUsernames    UsernameHistory[]
+  gamesAsRed      Game[]            @relation("RedPlayer")
+  gamesAsBlack    Game[]            @relation("BlackPlayer")
+}
+
+/// Old usernames are locked and redirected (HTTP 302) to the current profile.
+model UsernameHistory {
+  id        String   @id @default(uuid())
+  username  String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+/// One row per user per mode. Base rating 1500, floor 100.
+model Rating {
+  id          String   @id @default(uuid())
+  userId      String
+  mode        GameMode
+  rating      Int      @default(1500)
+  gamesPlayed Int      @default(0)
+  user        User     @relation(fields: [userId], references: [id])
+
+  @@unique([userId, mode])
+}
+
+model Game {
+  id          String    @id @default(uuid())
+  mode        GameMode
+  rated       Boolean   @default(true)
+  redId       String
+  blackId     String
+  red         User      @relation("RedPlayer", fields: [redId], references: [id])
+  black       User      @relation("BlackPlayer", fields: [blackId], references: [id])
+  moves       String[]
+  result      String?
+  endReason   String?
+  startedAt   DateTime  @default(now())
+  endedAt     DateTime?
+
+  @@index([redId, blackId, startedAt])
+}

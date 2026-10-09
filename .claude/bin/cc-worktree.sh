@@ -533,9 +533,8 @@ finish_in_worktree() {
         return 0
     fi
 
-    # User preference: IDE mode set during harness setup
-    local requested_mode="new"
-    fi
+    # IDE mode priority: --ide-mode flag, then CC_WORKTREE_IDE_MODE, then default "new"
+    local requested_mode="${IDE_MODE:-${CC_WORKTREE_IDE_MODE:-new}}"
 
     open_in_ide "$ide" "$path" "$requested_mode" || true
 

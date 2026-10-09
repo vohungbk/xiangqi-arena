@@ -1,0 +1,65 @@
+# Project configuration
+# ---------------------
+# Edit this file once after cloning. The PO edits THIS file.
+# Everything else in this repo is managed centrally — don't change it.
+
+project:
+  # A friendly name shown in confirmations. Anything readable.
+  name: "Xiangqi Arena"
+
+github:
+  # The repository (or repositories) where issues are created.
+  # Format: owner/repo  (no URL, no trailing slash)
+  repos:
+    - "vohungbk/xiangqi-arena"
+    - "vohungbk/xiangqi-arena-knowledge"
+  default_repo: "vohungbk/xiangqi-arena"  # Used when the user doesn't specify
+
+  # The GitHub Projects v2 board URL where issues are added.
+  project_url: "https://github.com/users/vohungbk/projects/1"
+
+  # Custom fields on the GitHub Project board (optional).
+  # Detected from the board; uncomment the ones you need.
+  custom_fields:
+    # priority:
+    #   field_id: "PVTSSF_lAHOAhcfPc4BlpTJzhkVVUY"
+    #   options:
+    #     P0: "79628723"
+    #     P1: "0a877460"
+    #     P2: "da944a9c"
+    # size:
+    #   field_id: "PVTSSF_lAHOAhcfPc4BlpTJzhkVVUc"
+    #   options:
+    #     XS: "6c6483d2"
+    #     S: "f784b110"
+    #     M: "7515a9f1"
+    #     L: "817d0097"
+    #     XL: "db339eb2"
+    {}
+
+defaults:
+  # People auto-assigned to every ticket. Use GitHub usernames.
+  assignees: []
+
+  # Labels applied to every ticket on top of any the PO mentions.
+  labels: []
+
+issue_types:
+  # Issue Types must first be defined at the GitHub account/org level.
+  allowed:
+    - Feature
+    - Bug
+    - Task
+
+  # Used when the PO doesn't specify a type in their request.
+  default: Task
+
+workflow:
+  # Show full ticket preview before creating? (Strongly recommend: true)
+  preview_before_create: true
+
+# Artifact path configuration (relative to the repo root).
+paths:
+  context_dir: "business-context"
+  requirements_dir: "requirements"
+  testing_dir: "testing"

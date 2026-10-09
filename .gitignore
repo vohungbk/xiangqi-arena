@@ -10,3 +10,5 @@ coverage
 .mcp.json
 .DS_Store
 .claude/worktrees
+.worktrees
+.claude/settings.local.json

@@ -1,0 +1,25 @@
+#!/bin/bash
+# pre-push hook — verification before pushing
+
+echo "Running pre-push checks..."
+
+if ! pnpm typecheck; then
+  echo ""
+  echo "❌ Typecheck failed. Fix the issues above before pushing."
+  exit 1
+fi
+
+if ! pnpm lint; then
+  echo ""
+  echo "❌ Lint failed. Fix the issues above before pushing."
+  exit 1
+fi
+
+if ! pnpm test; then
+  echo ""
+  echo "❌ Tests failed. Fix the issues above before pushing."
+  exit 1
+fi
+
+echo "✅ All pre-push checks passed"
+exit 0

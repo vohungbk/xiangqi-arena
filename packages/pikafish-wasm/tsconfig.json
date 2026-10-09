@@ -1,0 +1,9 @@
+{
+  "extends": "@xiangqi/config-typescript/base.json",
+  "compilerOptions": {
+    "lib": ["ES2022", "DOM", "WebWorker"],
+    "outDir": "dist",
+    "rootDir": "src"
+  },
+  "include": ["src"]
+}

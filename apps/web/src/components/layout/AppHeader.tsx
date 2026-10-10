@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { HOME_HREF } from '@/lib/nav-items';
+import { LanguageButton } from './LanguageButton';
 import { TopMenu } from './TopMenu';
 import { UserBlock } from './UserBlock';
 
@@ -22,7 +23,10 @@ export function AppHeader() {
             <span className="text-xs text-neutral-400">{APP_TAGLINE}</span>
           </span>
         </Link>
-        <UserBlock />
+        <div className="flex items-center gap-4">
+          <LanguageButton />
+          <UserBlock />
+        </div>
       </div>
       <div className="mt-3">
         <TopMenu />

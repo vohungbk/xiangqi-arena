@@ -35,7 +35,7 @@ This file is auto-loaded at the start of every Claude Code session.
 
 ## Workflow
 - Use `/code-review` before committing
-- Create feature branches: `feat/<issue>-<slug>`
+- Create feature branches: `<type>/<story-id>-<slug>` (story id in lowercase, for example `feat/eng-f02-s03-move-validation`)
 - Write conventional commits
 
 ## Out-of-scope for Claude

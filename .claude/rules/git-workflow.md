@@ -5,12 +5,18 @@
 All feature branches must follow this pattern:
 
 ```
-<type>/<optional-issue-number>-<description>
+<type>/<story-id>-<description>
 ```
+
+The **story id** is the ticket id in lowercase. `ENG-F02-S03` becomes `eng-f02-s03`.
+It is the id in the ticket title, for example `INF-F01-S06: Repository Guide and PR Template`.
+A GitHub issue number (`<type>/42-<description>`) or no id (`<type>/<description>`) is still accepted.
 
 **Allowed types:** `feat`, `fix`, `hotfix`, `refactor`, `perf`, `test`, `docs`, `chore`, `security`
 
 **Examples:**
+- `feat/eng-f02-s03-move-validation`
+- `docs/inf-f01-s06-readme-guide`
 - `feat/42-add-feature`
 - `fix/broken-link`
 - `hotfix/critical-bug`
@@ -33,14 +39,22 @@ Use Conventional Commits format:
 
 **Types:** `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `chore`, `security`
 
+Put the story id in the footer of every commit: `Refs <STORY-ID>` (uppercase, as in the ticket).
+
 **Examples:**
 ```
-feat(api): add new endpoint for user data
+feat(game): validate moves on the server
+
+Refs ENG-F02-S03
 
 fix(auth): resolve session timeout issue
+
+Refs ENG-F03-S01
 Closes #123
 
-security(input): sanitize user input in forms
+docs(readme): add the repository guide
+
+Refs INF-F01-S06
 ```
 
 ## Pull Request Requirements
@@ -51,7 +65,7 @@ Before opening a PR:
 - `pnpm build` passes for any app or package you changed
 - New behavior has tests (Vitest)
 - No secrets or `.env` files in the diff
-- PR body links the issue (`Closes #<number>`) and uses `.github/PULL_REQUEST_TEMPLATE.md`
+- PR title or body names the story id, the body links the issue (`Closes #<number>`) and uses `.github/PULL_REQUEST_TEMPLATE.md`
 
 ## Pre-push Checklist
 

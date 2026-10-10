@@ -74,4 +74,12 @@ describe('AppHeader', () => {
     expect(html).toContain('<header');
     expect(html).toContain('<nav aria-label="Menu chính"');
   });
+
+  it('should show the disabled language button next to the user block', () => {
+    const html = render('/');
+    expect(html).toContain('Tiếng Việt');
+    expect(html).toContain('Ngôn ngữ khác: Sắp ra mắt');
+    expect(html).toMatch(/<button[^>]*disabled/);
+    expect(html).toContain('data-testid="vietnam-flag"');
+  });
 });

@@ -82,14 +82,14 @@ describe('SideNav', () => {
     const [home, history] = screen.getAllByRole('link');
     expect(history?.className).toContain('text-gold');
     expect(history?.className).toContain('font-bold');
-    expect(home?.className).toContain('text-navy-muted');
+    expect(home?.className).toContain('text-fg-muted');
     expect(home?.className).not.toContain('text-gold');
   });
 
-  it('should use the navy background and the border color of the design', () => {
+  it('should use the background and the border color of the design', () => {
     renderAt('/');
     const rail = screen.getByRole('navigation', { name: 'Menu cá nhân' });
-    expect(rail.className).toContain('bg-navy');
-    expect(rail.className).toContain('border-navy-border');
+    expect(rail.className).toContain('bg-app');
+    expect(rail.className).toContain('border-line');
   });
 });

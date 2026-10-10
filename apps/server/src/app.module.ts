@@ -1,23 +1,32 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { BullModule } from '@nestjs/bullmq';
 import { JwtModule } from '@nestjs/jwt';
 import { GameModule } from './game/game.module';
-import { HealthController } from './health/health.controller';
+import { HealthModule } from './health/health.module';
+import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
-    JwtModule.register({
+    // The server runs from apps/server, the shared .env lives at the repo root.
+    ConfigModule.forRoot({ isGlobal: true, envFilePath: ['.env', '../../.env'] }),
+    PrismaModule,
+    JwtModule.registerAsync({
       global: true,
-      secret: process.env.JWT_ACCESS_SECRET ?? 'dev-access-secret',
-      signOptions: { expiresIn: process.env.JWT_ACCESS_TTL ?? '15m' },
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        secret: config.getOrThrow<string>('JWT_ACCESS_SECRET'),
+        signOptions: { expiresIn: config.get<string>('JWT_ACCESS_TTL', '15m') },
+      }),
     }),
-    BullModule.forRoot({
-      connection: { url: process.env.REDIS_URL ?? 'redis://localhost:6379' },
+    BullModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        connection: { url: config.get<string>('REDIS_URL', 'redis://localhost:6379') },
+      }),
     }),
     GameModule,
+    HealthModule,
   ],
-  controllers: [HealthController],
 })
 export class AppModule {}

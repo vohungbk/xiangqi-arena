@@ -24,7 +24,7 @@ setup:
 worktree-new:
 	@if [ -z "$(filter-out $@,$(MAKECMDGOALS))" ]; then \
 		echo "Usage: make worktree-new <branch-name>"; \
-		echo "Example: make worktree-new feat/42-add-search"; \
+		echo "Example: make worktree-new feat/eng-f02-s03-move-validation"; \
 		exit 1; \
 	fi
 	@./.claude/bin/cc-worktree.sh new "$(filter-out $@,$(MAKECMDGOALS))"

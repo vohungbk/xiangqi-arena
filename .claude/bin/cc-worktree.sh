@@ -7,7 +7,7 @@
 #
 # Usage:
 #   cc-worktree list                                  List worktrees + orphan branches
-#   cc-worktree new <type>/<issue#>-<slug>            Create + open new worktree
+#   cc-worktree new <type>/<story-id>-<slug>          Create + open new worktree
 #                  [--force-new-branch]
 #                  [--ide <name> | --no-ide]
 #                  [--ide-mode reuse|new|add]
@@ -290,12 +290,12 @@ validate_branch_name() {
         cat >&2 <<EOF
 ✗ Invalid branch name: $branch
 
-Per .claude/rules/00-git-workflow.md, branches must match:
-  feat/<issue#>-<slug>       e.g. feat/42-telemetry-capture
-  fix/<issue#>-<slug>
-  hotfix/<issue#>-<slug>
-  security/<issue#>-<slug>
-  chore/<slug>
+Per .claude/rules/git-workflow.md, branches must match:
+  <type>/<story-id>-<slug>   e.g. feat/eng-f02-s03-move-validation
+  <type>/<issue#>-<slug>     e.g. fix/42-auth-timeout (still accepted)
+  <type>/<slug>              e.g. chore/update-deps
+  Types: feat, fix, hotfix, refactor, perf, test, docs, chore, security
+  The story id is the ticket id in lowercase (ENG-F02-S03 -> eng-f02-s03).
 EOF
         return 1
     fi
@@ -372,7 +372,7 @@ cmd_list() {
 
 cmd_new() {
     local branch="${1:-}"
-    [[ -n "$branch" ]] || { echo "Usage: make worktree-new <type>/<issue#>-<slug>"; exit 1; }
+    [[ -n "$branch" ]] || { echo "Usage: make worktree-new <type>/<story-id>-<slug>"; exit 1; }
     shift || true
 
     local force_new=0

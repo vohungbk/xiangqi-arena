@@ -3,14 +3,11 @@ import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { GameMode } from '@xiangqi/shared-types';
 import type { HeaderUser } from '@/lib/header-user';
+import { makeHeaderUser } from '@/lib/header-user.fixture';
 import { useSessionStore } from '@/store/useSessionStore';
 import { UserBlock } from './UserBlock';
 
-const player: HeaderUser = {
-  username: 'minh_anh',
-  ratings: [{ mode: GameMode.RAPID, rating: 1500, gamesPlayed: 12 }],
-  unreadCount: 0,
-};
+const player = makeHeaderUser();
 
 function login(user: Partial<HeaderUser> = {}) {
   useSessionStore.setState({ user: { ...player, ...user } });

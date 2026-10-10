@@ -16,7 +16,7 @@ export function LanguageButton() {
         disabled
         aria-disabled="true"
         aria-describedby="language-button-hint"
-        className="flex cursor-not-allowed items-center gap-2 rounded-lg px-2 py-1 text-sm text-neutral-400 opacity-60"
+        className="flex cursor-not-allowed items-center gap-2 rounded-lg px-2 py-1 text-sm text-fg-muted opacity-60"
       >
         <VietnamFlag className="h-4 w-6 shrink-0 rounded-sm" />
         {LANGUAGE_LABEL}

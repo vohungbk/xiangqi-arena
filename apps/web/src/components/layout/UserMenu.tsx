@@ -6,9 +6,7 @@ import { useEffect, useId, useRef, useState } from 'react';
 import { formatHeaderRating, pickHeaderRating } from '@/lib/header-rating';
 import type { HeaderUser } from '@/lib/header-user';
 import { getInitials } from '@/lib/initials';
-
-export const PROFILE_HREF = '/profile';
-export const SETTINGS_HREF = '/profile/settings';
+import { PROFILE_HREF, SETTINGS_HREF } from '@/lib/nav-items';
 
 interface UserMenuProps {
   user: HeaderUser;
@@ -16,7 +14,7 @@ interface UserMenuProps {
 }
 
 const ITEM_CLASS =
-  'block w-full px-4 py-2 text-left text-sm text-neutral-200 hover:bg-white/10 focus:bg-white/10 focus:outline-none';
+  'block w-full px-4 py-2 text-left text-sm text-fg hover:bg-surface-inset focus:bg-surface-inset focus:outline-none';
 
 export function UserMenu({ user, onLogout }: UserMenuProps) {
   const [open, setOpen] = useState(false);
@@ -52,7 +50,7 @@ export function UserMenu({ user, onLogout }: UserMenuProps) {
         aria-expanded={open}
         aria-controls={open ? menuId : undefined}
         onClick={() => setOpen((value) => !value)}
-        className="flex items-center gap-3 rounded-lg px-2 py-1 hover:bg-white/10"
+        className="flex items-center gap-3 rounded-lg px-2 py-1 hover:bg-surface"
       >
         <span
           aria-hidden="true"
@@ -62,12 +60,12 @@ export function UserMenu({ user, onLogout }: UserMenuProps) {
         </span>
         <span className="flex min-w-0 flex-col text-left">
           <span className="max-w-[10rem] truncate text-sm font-semibold">{user.username}</span>
-          <span className="whitespace-nowrap text-xs text-neutral-400">
+          <span className="whitespace-nowrap text-xs text-fg-muted">
             {formatHeaderRating(rating)}
             {rating.provisional ? ' · Đang Đánh Giá' : ''}
           </span>
         </span>
-        <ChevronDown className="h-4 w-4 shrink-0 text-neutral-400" aria-hidden="true" />
+        <ChevronDown className="h-4 w-4 shrink-0 text-fg-muted" aria-hidden="true" />
       </button>
 
       {open ? (
@@ -75,7 +73,7 @@ export function UserMenu({ user, onLogout }: UserMenuProps) {
           id={menuId}
           role="menu"
           aria-label="Menu người dùng"
-          className="absolute right-0 z-10 mt-2 w-48 overflow-hidden rounded-lg border border-white/10 bg-neutral-900 py-1 shadow-lg"
+          className="absolute right-0 z-10 mt-2 w-48 overflow-hidden rounded-lg border border-line bg-surface py-1 shadow-lg"
         >
           <Link
             href={PROFILE_HREF}

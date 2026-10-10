@@ -1,7 +1,8 @@
 {
-  "name": "@xiangqi/shared-types",
+  "name": "@xiangqi/xiangqi-engine",
   "version": "0.1.0",
   "private": true,
+  "description": "Pure Xiangqi rules engine. Runs in Node with no browser, network or database.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
@@ -14,6 +15,9 @@
     "lint": "eslint src --ext .ts",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@xiangqi/shared-types": "workspace:*"
   },
   "devDependencies": {
     "@vitest/coverage-v8": "^2.1.2",

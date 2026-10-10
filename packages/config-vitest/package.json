@@ -1,11 +1,12 @@
 {
-  "name": "@xiangqi/config-typescript",
+  "name": "@xiangqi/config-vitest",
   "version": "0.1.0",
   "private": true,
+  "main": "base.js",
+  "types": "base.d.ts",
   "files": [
-    "base.json",
-    "nextjs.json",
-    "nestjs.json"
+    "base.js",
+    "base.d.ts"
   ],
   "scripts": {
     "test": "vitest run",
@@ -13,7 +14,6 @@
   },
   "devDependencies": {
     "@vitest/coverage-v8": "^2.1.2",
-    "typescript": "^5.6.2",
     "vitest": "^2.1.2"
   }
 }

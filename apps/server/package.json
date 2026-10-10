@@ -8,9 +8,10 @@
     "start": "node dist/main.js",
     "typecheck": "tsc --noEmit",
     "lint": "eslint src --ext .ts",
-    "test": "vitest run --passWithNoTests",
+    "test": "vitest run",
     "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate dev"
+    "prisma:migrate": "prisma migrate dev",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@nestjs/bullmq": "^10.2.1",
@@ -35,16 +36,18 @@
   },
   "devDependencies": {
     "@nestjs/cli": "^10.4.5",
+    "@swc/core": "^1.7.35",
     "@types/express": "^4.17.21",
     "@types/node": "^20.16.10",
     "@types/passport-jwt": "^4.0.1",
+    "@vitest/coverage-v8": "^2.1.2",
     "@xiangqi/config-eslint": "workspace:*",
     "@xiangqi/config-typescript": "workspace:*",
+    "@xiangqi/config-vitest": "workspace:*",
     "eslint": "^8.57.1",
     "prisma": "^5.20.0",
     "typescript": "^5.6.2",
     "unplugin-swc": "^1.5.1",
-    "@swc/core": "^1.7.35",
     "vitest": "^2.1.2"
   }
 }

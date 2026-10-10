@@ -14,15 +14,19 @@
     "dev": "tsc -p tsconfig.json --watch",
     "typecheck": "tsc --noEmit",
     "lint": "eslint src --ext .ts",
-    "test": "echo \"no tests yet\""
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@xiangqi/shared-types": "workspace:*"
   },
   "devDependencies": {
+    "@vitest/coverage-v8": "^2.1.2",
     "@xiangqi/config-eslint": "workspace:*",
     "@xiangqi/config-typescript": "workspace:*",
+    "@xiangqi/config-vitest": "workspace:*",
     "eslint": "^8.57.1",
-    "typescript": "^5.6.2"
+    "typescript": "^5.6.2",
+    "vitest": "^2.1.2"
   }
 }

@@ -8,7 +8,8 @@
     "start": "next start -p 3000",
     "typecheck": "tsc --noEmit",
     "lint": "next lint",
-    "test": "vitest run --passWithNoTests"
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@xiangqi/pikafish-wasm": "workspace:*",
@@ -24,8 +25,10 @@
     "@types/node": "^20.16.10",
     "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.0",
+    "@vitest/coverage-v8": "^2.1.2",
     "@xiangqi/config-eslint": "workspace:*",
     "@xiangqi/config-typescript": "workspace:*",
+    "@xiangqi/config-vitest": "workspace:*",
     "autoprefixer": "^10.4.20",
     "eslint": "^8.57.1",
     "eslint-config-next": "^14.2.15",

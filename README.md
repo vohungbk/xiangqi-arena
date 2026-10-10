@@ -23,16 +23,18 @@ pnpm dev
 
 ## Scripts
 
-| Command              | What it does                         |
-| -------------------- | ------------------------------------ |
-| `pnpm dev`           | Run all apps in dev mode             |
-| `pnpm build`         | Build all packages and apps          |
-| `pnpm lint`          | Lint all workspaces                  |
-| `pnpm typecheck`     | Type check all workspaces            |
-| `pnpm test`          | Run all tests                        |
-| `pnpm test:coverage` | Run all tests and write coverage     |
-| `pnpm db:up`         | Start Postgres and Redis with Docker |
-| `pnpm db:down`       | Stop Postgres and Redis              |
+| Command              | What it does                                       |
+| -------------------- | -------------------------------------------------- |
+| `pnpm dev`           | Run all apps in dev mode                           |
+| `pnpm build`         | Build all packages and apps                        |
+| `pnpm lint`          | Lint all workspaces                                |
+| `pnpm typecheck`     | Type check all workspaces                          |
+| `pnpm test`          | Run all tests                                      |
+| `pnpm test:coverage` | Run all tests and write coverage                   |
+| `pnpm db:up`         | Start Postgres and Redis with Docker               |
+| `pnpm db:down`       | Stop Postgres and Redis                            |
+| `pnpm db:migrate`    | Create and apply a Prisma migration (needs `.env`) |
+| `pnpm db:deploy`     | Apply existing Prisma migrations (needs `.env`)    |
 
 ## Structure
 

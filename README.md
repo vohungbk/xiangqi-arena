@@ -23,15 +23,15 @@ pnpm dev
 
 ## Scripts
 
-| Command          | What it does                              |
-| ---------------- | ----------------------------------------- |
-| `pnpm dev`       | Run all apps in dev mode                  |
-| `pnpm build`     | Build all packages and apps               |
-| `pnpm lint`      | Lint all workspaces                       |
-| `pnpm typecheck` | Type check all workspaces                 |
-| `pnpm test`      | Run all tests                             |
-| `pnpm db:up`     | Start Postgres and Redis with Docker      |
-| `pnpm db:down`   | Stop Postgres and Redis                   |
+| Command          | What it does                         |
+| ---------------- | ------------------------------------ |
+| `pnpm dev`       | Run all apps in dev mode             |
+| `pnpm build`     | Build all packages and apps          |
+| `pnpm lint`      | Lint all workspaces                  |
+| `pnpm typecheck` | Type check all workspaces            |
+| `pnpm test`      | Run all tests                        |
+| `pnpm db:up`     | Start Postgres and Redis with Docker |
+| `pnpm db:down`   | Stop Postgres and Redis              |
 
 ## Structure
 

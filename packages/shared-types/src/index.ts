@@ -269,7 +269,8 @@ export interface EloInput {
 export function calculateEloDelta(input: EloInput): number {
   const k = getKFactor(input.rating, input.gamesPlayed);
   const raw =
-    k * (input.score - expectedScore(input.rating, input.opponentRating)) *
+    k *
+    (input.score - expectedScore(input.rating, input.opponentRating)) *
     (input.pairMultiplier ?? 1);
   const next = Math.max(RATING.FLOOR, Math.round(input.rating + raw));
   return next - input.rating;

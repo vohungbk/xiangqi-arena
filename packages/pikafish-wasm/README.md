@@ -10,6 +10,7 @@ Web Worker wrapper for the Pikafish engine compiled to WebAssembly.
 ## Licence
 
 Pikafish is licensed under GPL v3. Any distribution of the Wasm build must include:
+
 - the GPL v3 licence text,
 - a link to the exact corresponding source,
 - the NNUE network licence.

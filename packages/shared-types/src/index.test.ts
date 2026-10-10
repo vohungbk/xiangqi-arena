@@ -28,9 +28,9 @@ describe('getKFactor', () => {
 
 describe('calculateEloDelta', () => {
   it('should give +20 for a provisional win between equal players', () => {
-    expect(calculateEloDelta({ rating: 1500, gamesPlayed: 0, score: 1, opponentRating: 1500 })).toBe(
-      20,
-    );
+    expect(
+      calculateEloDelta({ rating: 1500, gamesPlayed: 0, score: 1, opponentRating: 1500 }),
+    ).toBe(20);
   });
   it('should not drop a rating below the floor of 100', () => {
     expect(calculateEloDelta({ rating: 110, gamesPlayed: 0, score: 0, opponentRating: 110 })).toBe(

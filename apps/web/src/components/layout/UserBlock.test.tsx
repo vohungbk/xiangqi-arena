@@ -10,6 +10,7 @@ const player: HeaderUser = {
   username: 'minh_anh',
   ratings: [{ mode: GameMode.RAPID, rating: 1500, gamesPlayed: 12 }],
   unreadCount: 0,
+  emailVerified: true,
 };
 
 function login(user: Partial<HeaderUser> = {}) {

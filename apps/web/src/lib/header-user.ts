@@ -12,4 +12,6 @@ export interface HeaderUser {
   ratings: HeaderRating[];
   /** Unread items in the notification inbox (owned by USR-F03). */
   unreadCount: number;
+  /** False while the email is not verified. Ranked is locked then (owned by USR-F01). */
+  emailVerified: boolean;
 }

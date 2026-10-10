@@ -19,11 +19,10 @@ Run this only because the user asked for it. Pushing is outward-facing.
    - Impact assessment from the actual diff (`git diff main...HEAD`)
    - Verification checklist: tick only what was run
    - Do not tick "passes in CI" yet
-6. Show the PR title and body to the user. Ask to confirm.
-7. After confirmation:
+6. Push and create the PR:
    - `git push -u origin <branch>` (never force push)
    - `gh pr create --base main --title "<conventional title>" --body-file <file>`
-8. Bind the PR with the ccd_pr tools if available. Report the PR link.
+7. Bind the PR with the ccd_pr tools if available. Report the PR link.
 
 ## Rules
 - Base branch is `main`.

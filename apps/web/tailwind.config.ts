@@ -6,6 +6,7 @@ const config: Config = {
     extend: {
       colors: {
         board: '#e8c98a',
+        gold: '#C5A059',
         red: { piece: '#c0392b' },
       },
     },

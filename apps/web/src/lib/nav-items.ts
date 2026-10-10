@@ -10,6 +10,13 @@ export interface NavItem {
 /** Home page. The logo links here. */
 export const HOME_HREF = '/';
 
+/** Own profile and its settings page (USR-F03). */
+export const PROFILE_HREF = '/profile';
+export const SETTINGS_HREF = '/profile/settings';
+
+/** Own game history (LB-F02). */
+export const HISTORY_HREF = '/history';
+
 /** Top menu of the app shell (ENG-F07 R2). The order is the order on the screen. */
 export const NAV_ITEMS: readonly NavItem[] = [
   { label: 'Đấu Online', href: '/play', icon: Swords },

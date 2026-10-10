@@ -6,9 +6,7 @@ import { useEffect, useId, useRef, useState } from 'react';
 import { formatHeaderRating, pickHeaderRating } from '@/lib/header-rating';
 import type { HeaderUser } from '@/lib/header-user';
 import { getInitials } from '@/lib/initials';
-
-export const PROFILE_HREF = '/profile';
-export const SETTINGS_HREF = '/profile/settings';
+import { PROFILE_HREF, SETTINGS_HREF } from '@/lib/nav-items';
 
 interface UserMenuProps {
   user: HeaderUser;

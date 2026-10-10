@@ -23,15 +23,16 @@ pnpm dev
 
 ## Scripts
 
-| Command          | What it does                         |
-| ---------------- | ------------------------------------ |
-| `pnpm dev`       | Run all apps in dev mode             |
-| `pnpm build`     | Build all packages and apps          |
-| `pnpm lint`      | Lint all workspaces                  |
-| `pnpm typecheck` | Type check all workspaces            |
-| `pnpm test`      | Run all tests                        |
-| `pnpm db:up`     | Start Postgres and Redis with Docker |
-| `pnpm db:down`   | Stop Postgres and Redis              |
+| Command              | What it does                         |
+| -------------------- | ------------------------------------ |
+| `pnpm dev`           | Run all apps in dev mode             |
+| `pnpm build`         | Build all packages and apps          |
+| `pnpm lint`          | Lint all workspaces                  |
+| `pnpm typecheck`     | Type check all workspaces            |
+| `pnpm test`          | Run all tests                        |
+| `pnpm test:coverage` | Run all tests and write coverage     |
+| `pnpm db:up`         | Start Postgres and Redis with Docker |
+| `pnpm db:down`       | Stop Postgres and Redis              |
 
 ## Structure
 
@@ -75,6 +76,7 @@ Worktrees live in `.worktrees/`. Run `pnpm install` inside each new worktree.
 ## Claude Code Harness
 
 - Rules: `.claude/rules/` (git workflow, security, TypeScript standards, definition of done)
+- CI: `.github/workflows/ci.yml` runs format check, lint, typecheck and tests with coverage on every pull request
 - Git hooks: `.githooks/` (`post-checkout`, `pre-push` runs typecheck, lint and test)
 - Claude hooks: `.claude/hooks/` (format and typecheck after edits, secret scan before commits)
 - Permissions: `.claude/settings.json`

@@ -12,3 +12,6 @@ coverage
 .claude/worktrees
 .worktrees
 .claude/settings.local.json
+
+# Vitest json report written by CI
+test-results.json

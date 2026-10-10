@@ -1,0 +1,18 @@
+# Build output and caches
+dist
+.next
+.turbo
+coverage
+node_modules
+
+# Generated
+pnpm-lock.yaml
+
+# Managed centrally (PM/QA plugin and Claude Code harness)
+.claude
+project.yaml
+CLAUDE.md
+AGENTS.md
+business-context
+requirements
+testing

@@ -8,6 +8,7 @@ module.exports = {
   ignorePatterns: ['dist', '.next', 'node_modules', '.turbo', 'coverage'],
   rules: {
     '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+    '@typescript-eslint/no-explicit-any': 'error',
     '@typescript-eslint/consistent-type-imports': 'warn',
   },
 };

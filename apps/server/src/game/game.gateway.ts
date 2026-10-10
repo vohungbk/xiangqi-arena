@@ -71,10 +71,7 @@ export class GameGateway implements OnGatewayConnection {
    * which means the board has rendered on their screens.
    */
   @SubscribeMessage(WSEvents.CLIENT_READY)
-  onClientReady(
-    @ConnectedSocket() client: Socket,
-    @MessageBody() _body: ClientReadyPayload,
-  ): void {
+  onClientReady(@ConnectedSocket() client: Socket, @MessageBody() _body: ClientReadyPayload): void {
     if (!client.data.userId) return;
     // TODO(GAME-F01): mark player ready and start the clock when both are ready.
   }

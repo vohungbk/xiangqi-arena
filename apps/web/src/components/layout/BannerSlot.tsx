@@ -4,7 +4,7 @@ import { Info } from 'lucide-react';
 import { useSessionStore } from '@/store/useSessionStore';
 import { useShellStore } from '@/store/useShellStore';
 
-export const EMAIL_BANNER_TEXT = 'Xác thực email ngay để mở khóa chế độ Đấu Xếp Hạng (Ranked).';
+const EMAIL_BANNER_TEXT = 'Xác thực email ngay để mở khóa chế độ Đấu Xếp Hạng (Ranked).';
 
 /**
  * Full-width place under the header for the reminder banner (ENG-F07 R9).
@@ -12,10 +12,11 @@ export const EMAIL_BANNER_TEXT = 'Xác thực email ngay để mở khóa chế 
  * With no banner the place renders nothing and takes no height.
  */
 export function BannerSlot() {
-  const user = useSessionStore((state) => state.user);
+  // Select one boolean, so a change of the rating or the inbox does not render the slot again.
+  const emailUnverified = useSessionStore((state) => state.user?.emailVerified === false);
   const inGame = useShellStore((state) => state.inGame);
 
-  if (inGame || !user || user.emailVerified) return null;
+  if (inGame || !emailUnverified) return null;
 
   return (
     <div role="status" className="w-full border-b border-line bg-surface-selected px-6 py-3">

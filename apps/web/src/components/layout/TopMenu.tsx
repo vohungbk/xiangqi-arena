@@ -20,7 +20,7 @@ export function TopMenu() {
                 className={`flex items-center gap-2 border-b-2 py-3 text-sm font-medium transition-colors ${
                   active
                     ? 'border-gold text-gold'
-                    : 'border-transparent text-neutral-400 hover:text-neutral-100'
+                    : 'border-transparent text-fg-muted hover:text-fg'
                 }`}
               >
                 <Icon className="h-4 w-4" aria-hidden="true" />

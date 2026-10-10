@@ -9,7 +9,7 @@ const APP_TAGLINE = 'Nền tảng Cờ Tướng Trực Tuyến';
 
 export function AppHeader() {
   return (
-    <header className="border-b border-white/10 px-6 pt-4">
+    <header className="border-b border-line px-6 pt-4">
       <div className="flex items-center justify-between gap-4">
         <Link href={HOME_HREF} className="flex w-fit items-center gap-3">
           <span
@@ -20,7 +20,7 @@ export function AppHeader() {
           </span>
           <span className="flex flex-col">
             <span className="text-lg font-bold leading-tight">{APP_NAME}</span>
-            <span className="text-xs text-neutral-400">{APP_TAGLINE}</span>
+            <span className="text-xs text-fg-muted">{APP_TAGLINE}</span>
           </span>
         </Link>
         <div className="flex items-center gap-4">

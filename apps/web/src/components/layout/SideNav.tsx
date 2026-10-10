@@ -15,7 +15,7 @@ export function SideNav() {
   return (
     <nav
       aria-label="Menu cá nhân"
-      className="hidden w-16 shrink-0 border-r border-navy-border bg-navy py-4 lg:block"
+      className="hidden w-16 shrink-0 border-r border-line bg-app py-4 lg:block"
     >
       <ul className="flex flex-col gap-1">
         {SIDE_NAV_ITEMS.map(({ href, label, icon: Icon }) => {
@@ -26,9 +26,7 @@ export function SideNav() {
                 href={href}
                 aria-current={active ? 'page' : undefined}
                 className={`flex w-full flex-col items-center gap-1 py-3 text-[11px] transition-colors ${
-                  active
-                    ? 'font-bold text-gold'
-                    : 'font-medium text-navy-muted hover:text-neutral-100'
+                  active ? 'font-bold text-gold' : 'font-medium text-fg-muted hover:text-fg'
                 }`}
               >
                 <Icon className="h-5 w-5" aria-hidden="true" />

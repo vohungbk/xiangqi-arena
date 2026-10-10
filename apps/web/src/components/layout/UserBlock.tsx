@@ -19,7 +19,7 @@ export function UserBlock() {
       <button
         type="button"
         aria-label={hasUnread ? `Thông báo, ${user.unreadCount} chưa đọc` : 'Thông báo'}
-        className="relative rounded-lg p-2 text-neutral-300 hover:bg-white/10"
+        className="relative rounded-lg p-2 text-fg-muted hover:bg-surface"
       >
         <Bell className="h-5 w-5" aria-hidden="true" />
         {hasUnread ? (

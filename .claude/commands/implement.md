@@ -34,8 +34,10 @@ Stop after the plan. Ask: "Approve this plan?"
 1. Work task by task, following the approved plan. If the plan must change, stop and ask.
 2. Write tests with Vitest. Test names are meaningful, for example "should return error when email is invalid".
 3. Use shared types from `@xiangqi/shared-types`. Never redefine them.
-4. Run `/verify` at the end and show the exit codes.
-5. Do not commit or push unless the user asks. Commit format: `feat(<scope>): <subject>`, tests in a separate `test(<scope>)` commit.
+4. Run `/code-review` on the changes. Fix the findings that are real, or say why you skip one.
+5. Run `/simplify` and apply the fixes.
+6. Run `/verify` at the end and show the exit codes. Run it after steps 4 and 5, because they change the code.
+7. Do not commit or push unless the user asks. Commit format: `feat(<scope>): <subject>`, tests in a separate `test(<scope>)` commit.
 
 ## Output
 - Report each AC with a status: Pass / Fail / Block / Not run, and the evidence.

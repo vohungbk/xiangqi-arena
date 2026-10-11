@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { SIDE_NAV_ITEMS } from './side-nav-items';
+import { isMemberOnlyHref, SIDE_NAV_ITEMS } from './side-nav-items';
 
 describe('SIDE_NAV_ITEMS', () => {
   it('should list Trang Chủ, Lịch Sử and Hồ Sơ in this order', () => {
@@ -13,5 +13,16 @@ describe('SIDE_NAV_ITEMS', () => {
   it('should have no tab for the Leaderboard', () => {
     const text = SIDE_NAV_ITEMS.map((item) => `${item.label} ${item.href}`).join(' ');
     expect(text).not.toMatch(/Xếp Hạng|leaderboard/i);
+  });
+});
+
+describe('isMemberOnlyHref', () => {
+  it('should lock Lịch Sử and Hồ Sơ for a Guest', () => {
+    expect(isMemberOnlyHref('/history')).toBe(true);
+    expect(isMemberOnlyHref('/profile')).toBe(true);
+  });
+
+  it('should leave Home open for a Guest', () => {
+    expect(isMemberOnlyHref('/')).toBe(false);
   });
 });

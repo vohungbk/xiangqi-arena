@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import { AppHeader } from '@/components/layout/AppHeader';
 import { BannerSlot } from '@/components/layout/BannerSlot';
+import { BottomNav } from '@/components/layout/BottomNav';
 import { CompactHeader } from '@/components/layout/CompactHeader';
 import { SideNav } from '@/components/layout/SideNav';
 import '@fontsource-variable/inter';
@@ -23,6 +24,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <SideNav />
           <div className="min-w-0 flex-1">{children}</div>
         </div>
+        <BottomNav />
       </body>
     </html>
   );

@@ -7,7 +7,7 @@ import { SIDE_NAV_ITEMS } from '@/lib/side-nav-items';
 
 /**
  * Narrow rail on the left, 64 px wide, for screens of 1024 px and wider (ENG-F07 R8, R22).
- * Below 1024 px the Bottom Nav takes its place (another story).
+ * Below 1024 px the Bottom Nav takes its place.
  */
 export function SideNav() {
   const pathname = usePathname();

@@ -13,6 +13,13 @@ interface ShellState {
   drawerOpen: boolean;
   toggleDrawer: () => void;
   closeDrawer: () => void;
+  /**
+   * Login modal a Guest gets from a member-only tab (ENG-F07 R19). The shell only keeps the
+   * state. The modal itself is owned by USR-F01.
+   */
+  loginModalOpen: boolean;
+  openLoginModal: () => void;
+  closeLoginModal: () => void;
 }
 
 export const useShellStore = create<ShellState>((set) => ({
@@ -22,4 +29,7 @@ export const useShellStore = create<ShellState>((set) => ({
   drawerOpen: false,
   toggleDrawer: () => set((state) => ({ drawerOpen: !state.drawerOpen })),
   closeDrawer: () => set({ drawerOpen: false }),
+  loginModalOpen: false,
+  openLoginModal: () => set({ loginModalOpen: true }),
+  closeLoginModal: () => set({ loginModalOpen: false }),
 }));

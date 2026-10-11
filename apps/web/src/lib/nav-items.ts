@@ -14,6 +14,9 @@ export const HOME_HREF = '/';
 export const PROFILE_HREF = '/profile';
 export const SETTINGS_HREF = '/profile/settings';
 
+/** Login page (USR-F01). It does not exist yet. */
+export const LOGIN_HREF = '/login';
+
 /** Own game history (LB-F02). */
 export const HISTORY_HREF = '/history';
 

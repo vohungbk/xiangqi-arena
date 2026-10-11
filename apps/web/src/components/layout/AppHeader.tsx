@@ -10,7 +10,7 @@ const APP_TAGLINE = 'Nền tảng Cờ Tướng Trực Tuyến';
 
 export function AppHeader() {
   return (
-    <header className="border-b border-line px-6 pt-4">
+    <header className="hidden border-b border-line px-6 pt-4 lg:block">
       <div className="flex items-center justify-between gap-4">
         <Link href={HOME_HREF} className="flex w-fit items-center gap-3">
           <LogoMark sizeClass="h-10 w-10" />

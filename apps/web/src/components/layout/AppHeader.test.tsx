@@ -82,4 +82,10 @@ describe('AppHeader', () => {
     expect(html).toMatch(/<button[^>]*disabled/);
     expect(html).toContain('data-testid="vietnam-flag"');
   });
+
+  it('should hide the Desktop header below 1024 px so the compact header takes its place', () => {
+    const header = render('/').match(/<header[^>]*>/)?.[0] ?? '';
+    expect(header).toContain('hidden');
+    expect(header).toContain('lg:block');
+  });
 });

@@ -5,12 +5,13 @@ import Link from 'next/link';
 import { HOME_HREF, LOGIN_HREF } from '@/lib/nav-items';
 import { useSessionStore } from '@/store/useSessionStore';
 import { useShellStore } from '@/store/useShellStore';
+import { CategoryDrawer } from './CategoryDrawer';
 import { LogoMark } from './LogoMark';
 import { NotificationBell } from './NotificationBell';
 import { OnlineBadge } from './OnlineBadge';
 import { UserMenu } from './UserMenu';
 
-/** Button under the header. It toggles the drawer, which story S11 builds. */
+/** Button under the header. It toggles the drawer. */
 function DrawerButton() {
   const drawerOpen = useShellStore((state) => state.drawerOpen);
   const toggleDrawer = useShellStore((state) => state.toggleDrawer);
@@ -34,8 +35,7 @@ function CompactOnlineBadge() {
 
 /**
  * Header below 1024 px (ENG-F07 R10, R22): the logo, the online badge, the bell and the Avatar,
- * and the button "Danh mục" under it. The language button and the Username live in the
- * drawer (ASM01, story S11).
+ * and the button "Danh mục" under it. The language button lives in the drawer (R11).
  */
 export function CompactHeader() {
   const user = useSessionStore((state) => state.user);
@@ -70,6 +70,7 @@ export function CompactHeader() {
       <div className="border-b border-line px-4 py-2">
         <DrawerButton />
       </div>
+      <CategoryDrawer />
     </div>
   );
 }

@@ -1,10 +1,12 @@
 // @vitest-environment jsdom
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { makeHeaderUser } from '@/lib/header-user.fixture';
 import { useSessionStore } from '@/store/useSessionStore';
 import { useShellStore } from '@/store/useShellStore';
 import { CompactHeader } from './CompactHeader';
+
+vi.mock('next/navigation', () => ({ usePathname: () => '/' }));
 
 function login(overrides: Parameters<typeof makeHeaderUser>[0] = {}) {
   useSessionStore.setState({ user: makeHeaderUser(overrides) });
@@ -14,10 +16,16 @@ describe('CompactHeader', () => {
   beforeEach(() => {
     useSessionStore.setState({ user: null });
     useShellStore.setState({ onlinePlayers: null, drawerOpen: false });
+    vi.stubGlobal('matchMedia', () => ({
+      matches: false,
+      addEventListener: () => undefined,
+      removeEventListener: () => undefined,
+    }));
   });
 
   afterEach(() => {
     cleanup();
+    vi.unstubAllGlobals();
   });
 
   describe('breakpoint', () => {
@@ -118,6 +126,14 @@ describe('CompactHeader', () => {
       expect(button.getAttribute('aria-expanded')).toBe('true');
       fireEvent.click(button);
       expect(useShellStore.getState().drawerOpen).toBe(false);
+    });
+
+    it('should open the drawer with the menu links when the button is clicked', () => {
+      render(<CompactHeader />);
+      expect(screen.queryByRole('dialog')).toBeNull();
+      fireEvent.click(screen.getByRole('button', { name: 'Danh mục' }));
+      const drawer = screen.getByRole('dialog', { name: 'Danh mục' });
+      expect(drawer.querySelectorAll('nav a')).toHaveLength(3);
     });
   });
 });

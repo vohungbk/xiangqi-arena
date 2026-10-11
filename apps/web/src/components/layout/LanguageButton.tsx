@@ -1,3 +1,6 @@
+'use client';
+
+import { useId } from 'react';
 import { VietnamFlag } from './VietnamFlag';
 
 export const LANGUAGE_LABEL = 'Tiếng Việt';
@@ -8,6 +11,9 @@ export const LANGUAGE_TOOLTIP = 'Ngôn ngữ khác: Sắp ra mắt';
  * in the MVP. It only keeps the place for more languages in Phase 2.
  */
 export function LanguageButton() {
+  // The header and the drawer both render this button, so the hint id must be unique.
+  const hintId = useId();
+
   return (
     // The wrapper carries the tooltip, because a disabled button gets no hover events.
     <span title={LANGUAGE_TOOLTIP} className="inline-flex">
@@ -15,13 +21,13 @@ export function LanguageButton() {
         type="button"
         disabled
         aria-disabled="true"
-        aria-describedby="language-button-hint"
+        aria-describedby={hintId}
         className="flex cursor-not-allowed items-center gap-2 rounded-lg px-2 py-1 text-sm text-fg-muted opacity-60"
       >
         <VietnamFlag className="h-4 w-6 shrink-0 rounded-sm" />
         {LANGUAGE_LABEL}
       </button>
-      <span id="language-button-hint" className="sr-only">
+      <span id={hintId} className="sr-only">
         {LANGUAGE_TOOLTIP}
       </span>
     </span>

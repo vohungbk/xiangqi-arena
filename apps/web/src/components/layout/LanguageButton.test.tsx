@@ -47,6 +47,22 @@ describe('LanguageButton', () => {
     expect(document.getElementById(id)?.textContent).toBe('Ngôn ngữ khác: Sắp ra mắt');
   });
 
+  it('should give every instance its own hint id when the page shows two buttons', () => {
+    render(
+      <>
+        <LanguageButton />
+        <LanguageButton />
+      </>,
+    );
+    const ids = screen
+      .getAllByRole('button')
+      .map((button) => button.getAttribute('aria-describedby') ?? '');
+    expect(new Set(ids).size).toBe(2);
+    for (const id of ids) {
+      expect(document.querySelectorAll(`[id="${id}"]`)).toHaveLength(1);
+    }
+  });
+
   it('should change nothing on the page when the player clicks it', () => {
     const { container } = render(<LanguageButton />);
     const before = container.innerHTML;

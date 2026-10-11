@@ -9,9 +9,10 @@ interface ShellState {
   setInGame: (inGame: boolean) => void;
   /** Rounded number of players online, or null when unknown (ENG-F07 R3). S06 adds the writer. */
   onlinePlayers: number | null;
-  /** Drawer "Danh mục" of the compact shell (ENG-F07 R11). The drawer itself is story S11, which adds the setters it needs. */
+  /** Drawer "Danh mục" of the compact shell (ENG-F07 R11). */
   drawerOpen: boolean;
   toggleDrawer: () => void;
+  closeDrawer: () => void;
 }
 
 export const useShellStore = create<ShellState>((set) => ({
@@ -20,4 +21,5 @@ export const useShellStore = create<ShellState>((set) => ({
   onlinePlayers: null,
   drawerOpen: false,
   toggleDrawer: () => set((state) => ({ drawerOpen: !state.drawerOpen })),
+  closeDrawer: () => set({ drawerOpen: false }),
 }));

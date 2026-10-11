@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { HOME_HREF } from '@/lib/nav-items';
 import { LanguageButton } from './LanguageButton';
+import { LogoMark } from './LogoMark';
 import { TopMenu } from './TopMenu';
 import { UserBlock } from './UserBlock';
 
@@ -12,12 +13,7 @@ export function AppHeader() {
     <header className="border-b border-line px-6 pt-4">
       <div className="flex items-center justify-between gap-4">
         <Link href={HOME_HREF} className="flex w-fit items-center gap-3">
-          <span
-            aria-hidden="true"
-            className="flex h-10 w-10 items-center justify-center rounded-lg border border-gold text-xl text-gold"
-          >
-            帥
-          </span>
+          <LogoMark sizeClass="h-10 w-10" />
           <span className="flex flex-col">
             <span className="text-lg font-bold leading-tight">{APP_NAME}</span>
             <span className="text-xs text-fg-muted">{APP_TAGLINE}</span>

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import { AppHeader } from '@/components/layout/AppHeader';
 import { BannerSlot } from '@/components/layout/BannerSlot';
+import { CompactHeader } from '@/components/layout/CompactHeader';
 import { SideNav } from '@/components/layout/SideNav';
 import '@fontsource-variable/inter';
 import './globals.css';
@@ -16,6 +17,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="vi">
       <body className="flex min-h-screen flex-col bg-app font-sans text-fg">
         <AppHeader />
+        <CompactHeader />
         <BannerSlot />
         <div className="flex flex-1">
           <SideNav />

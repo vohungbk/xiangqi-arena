@@ -11,12 +11,14 @@ import { PROFILE_HREF, SETTINGS_HREF } from '@/lib/nav-items';
 interface UserMenuProps {
   user: HeaderUser;
   onLogout: () => void;
+  /** Avatar only. The Username and the Rating move into the drawer (ENG-F07 R10). */
+  compact?: boolean;
 }
 
 const ITEM_CLASS =
   'block w-full px-4 py-2 text-left text-sm text-fg hover:bg-surface-inset focus:bg-surface-inset focus:outline-none';
 
-export function UserMenu({ user, onLogout }: UserMenuProps) {
+export function UserMenu({ user, onLogout, compact = false }: UserMenuProps) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -49,8 +51,11 @@ export function UserMenu({ user, onLogout }: UserMenuProps) {
         aria-haspopup="menu"
         aria-expanded={open}
         aria-controls={open ? menuId : undefined}
+        aria-label={compact ? `Menu người dùng: ${user.username}` : undefined}
         onClick={() => setOpen((value) => !value)}
-        className="flex items-center gap-3 rounded-lg px-2 py-1 hover:bg-surface"
+        className={`flex items-center gap-3 rounded-lg px-2 py-1 hover:bg-surface ${
+          compact ? 'min-h-[44px] min-w-[44px] justify-center' : ''
+        }`}
       >
         <span
           aria-hidden="true"
@@ -58,14 +63,18 @@ export function UserMenu({ user, onLogout }: UserMenuProps) {
         >
           {getInitials(user.username)}
         </span>
-        <span className="flex min-w-0 flex-col text-left">
-          <span className="max-w-[10rem] truncate text-sm font-semibold">{user.username}</span>
-          <span className="whitespace-nowrap text-xs text-fg-muted">
-            {formatHeaderRating(rating)}
-            {rating.provisional ? ' · Đang Đánh Giá' : ''}
-          </span>
-        </span>
-        <ChevronDown className="h-4 w-4 shrink-0 text-fg-muted" aria-hidden="true" />
+        {!compact && (
+          <>
+            <span className="flex min-w-0 flex-col text-left">
+              <span className="max-w-[10rem] truncate text-sm font-semibold">{user.username}</span>
+              <span className="whitespace-nowrap text-xs text-fg-muted">
+                {formatHeaderRating(rating)}
+                {rating.provisional ? ' · Đang Đánh Giá' : ''}
+              </span>
+            </span>
+            <ChevronDown className="h-4 w-4 shrink-0 text-fg-muted" aria-hidden="true" />
+          </>
+        )}
       </button>
 
       {open ? (

@@ -1,5 +1,8 @@
+'use client';
+
 import Link from 'next/link';
 import { HOME_HREF } from '@/lib/nav-items';
+import { useShellStore } from '@/store/useShellStore';
 import { LanguageButton } from './LanguageButton';
 import { LogoMark } from './LogoMark';
 import { TopMenu } from './TopMenu';
@@ -9,6 +12,11 @@ const APP_NAME = 'Xiangqi Arena - Cờ Tướng Arena';
 const APP_TAGLINE = 'Nền tảng Cờ Tướng Trực Tuyến';
 
 export function AppHeader() {
+  const inGame = useShellStore((state) => state.inGame);
+
+  // A live game shows the in-game bar instead (ENG-F07 R13).
+  if (inGame) return null;
+
   return (
     <header className="hidden border-b border-line px-6 pt-4 lg:block">
       <div className="flex items-center justify-between gap-4">

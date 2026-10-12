@@ -4,13 +4,17 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { isActiveItem } from '@/lib/nav-items';
 import { SIDE_NAV_ITEMS } from '@/lib/side-nav-items';
+import { useShellStore } from '@/store/useShellStore';
 
 /**
  * Narrow rail on the left, 64 px wide, for screens of 1024 px and wider (ENG-F07 R8, R22).
- * Below 1024 px the Bottom Nav takes its place.
+ * Below 1024 px the Bottom Nav takes its place. Hidden in a live game (R13).
  */
 export function SideNav() {
   const pathname = usePathname();
+  const inGame = useShellStore((state) => state.inGame);
+
+  if (inGame) return null;
 
   return (
     <nav

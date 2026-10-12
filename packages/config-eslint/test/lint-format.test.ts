@@ -2,7 +2,11 @@ import { spawnSync } from 'node:child_process';
 import { existsSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
-import { afterAll, beforeAll, describe, expect, it } from 'vitest';
+import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
+
+// These tests start the real ESLint, which loads typescript-eslint. On a busy CI runner, with
+// every package running its tests at once, that takes more than the 5 s default.
+vi.setConfig({ testTimeout: 60_000, hookTimeout: 60_000 });
 
 const PKG_DIR = resolve(__dirname, '..');
 const ROOT = resolve(PKG_DIR, '../..');

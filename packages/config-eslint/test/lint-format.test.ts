@@ -13,6 +13,12 @@ let dir: string;
 
 beforeAll(() => {
   dir = mkdtempSync(join(tmpdir(), 'xiangqi-lint-'));
+  // A flat config lints only the files under its own folder, so the fixtures get their own
+  // config that re-exports the shared one.
+  writeFileSync(
+    join(dir, 'eslint.config.mjs'),
+    `import { base } from ${JSON.stringify(join(PKG_DIR, 'index.mjs'))};\nexport default base;\n`,
+  );
 });
 
 afterAll(() => {
@@ -26,18 +32,7 @@ function writeFixture(name: string, content: string): string {
 }
 
 function lint(file: string) {
-  return spawnSync(
-    ESLINT_BIN,
-    [
-      '--no-eslintrc',
-      '-c',
-      join(PKG_DIR, 'base.js'),
-      '--resolve-plugins-relative-to',
-      PKG_DIR,
-      file,
-    ],
-    { encoding: 'utf8' },
-  );
+  return spawnSync(ESLINT_BIN, [file], { encoding: 'utf8', cwd: dir });
 }
 
 function formatCheck(file: string) {
@@ -85,20 +80,23 @@ describe('every package uses the shared ESLint config', () => {
     expect(packages.length).toBeGreaterThanOrEqual(4);
   });
 
-  // The web app uses a flat config (ESLint 9) with the shared rules. The others extend base.js.
-  it.each(packages)('should use @xiangqi/config-eslint in %s', (path) => {
-    const file = ['.eslintrc.js', 'eslint.config.mjs'].find((name) => existsSync(join(path, name)));
-    expect(file, `no ESLint config in ${path}`).toBeTruthy();
-    const config = readFileSync(join(path, file as string), 'utf8');
+  it.each(packages)('should use @xiangqi/config-eslint in the flat config of %s', (path) => {
+    const config = readFileSync(join(path, 'eslint.config.mjs'), 'utf8');
     expect(config).toContain('@xiangqi/config-eslint');
   });
 
-  it('should give the flat config of the web app the same rules as base.js', () => {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const shared = require(join(PKG_DIR, 'rules.js')) as Record<string, unknown>;
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const base = require(join(PKG_DIR, 'base.js')) as { rules: Record<string, unknown> };
-    expect(base.rules).toEqual(shared);
+  it('should give every flat config the same rules', async () => {
+    const shared = (await import(join(PKG_DIR, 'rules.js'))).default as Record<string, unknown>;
+    const flat = (await import(join(PKG_DIR, 'index.mjs'))) as Record<
+      'base' | 'nest' | 'worker',
+      { rules?: Record<string, unknown> }[]
+    >;
+    for (const name of ['base', 'nest', 'worker'] as const) {
+      const merged = Object.assign({}, ...flat[name].map((entry) => entry.rules ?? {}));
+      for (const [rule, setting] of Object.entries(shared)) {
+        expect(merged[rule], `${name}: ${rule}`).toEqual(setting);
+      }
+    }
     expect(shared['@typescript-eslint/no-explicit-any']).toBe('error');
   });
 

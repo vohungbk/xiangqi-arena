@@ -22,10 +22,14 @@ export class RedisIoAdapter extends IoAdapter {
   }
 
   createIOServer(port: number, options?: ServerOptions) {
-    const server = super.createIOServer(port, {
-      ...options,
-      cors: { origin: this.allowedOrigins, credentials: true },
-    });
+    // Object.assign keeps the optional keys of `options` as they are. A spread would give
+    // `path: string | undefined`, which the strict optional property check of Nest 12 rejects.
+    const server = super.createIOServer(
+      port,
+      Object.assign({}, options, {
+        cors: { origin: this.allowedOrigins, credentials: true },
+      }),
+    );
     if (this.adapterConstructor) server.adapter(this.adapterConstructor);
     return server;
   }

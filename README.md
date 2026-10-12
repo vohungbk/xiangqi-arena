@@ -4,7 +4,7 @@ Real-time online Xiangqi (Chinese chess) platform. Turborepo + pnpm workspaces.
 
 ## Requirements
 
-- Node.js 20 or newer
+- Node.js 22.12 or newer (`engines.node` is `>=22.12`; Vitest 5 and the CI need it)
 - pnpm 9 or newer (`corepack enable`)
 - Docker (for Postgres and Redis)
 

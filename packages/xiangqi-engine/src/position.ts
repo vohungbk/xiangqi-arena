@@ -1,6 +1,8 @@
 import {
   allPoints,
   assertInsideBoard,
+  BoardError,
+  BoardErrorCode,
   fenCharToPiece,
   parseFen,
   pieceToFenChar,
@@ -98,22 +100,39 @@ export function positionsEqual(a: Position, b: Position): boolean {
  * move switches. The half-move clock goes back to 0 on a capture and grows by 1 otherwise. The
  * full-move number grows by 1 after a Black move. The given position is not changed (E5).
  *
- * The engine trusts the move and does not check the rules here (ENG-F01-S06-ASM01). A move
- * from an empty point, or onto a piece of the same side, is refused by ENG-F01-S07, not here.
- * A point outside the board throws a `BoardError` (E1).
+ * The engine does not check the rules of a piece (ENG-F02 does). It refuses a move that would
+ * damage the position and throws a `BoardError`, and the position is left as it was (R11):
+ * - `POINT_OUT_OF_BOARD`: a point outside the board (E1)
+ * - `MOVE_FROM_EMPTY_POINT`: no piece on the point the move starts from (E3)
+ * - `MOVE_OUT_OF_TURN`: the piece is of the side that is not to move
+ * - `MOVE_ONTO_OWN_PIECE`: the target holds a piece of the same side (E4)
  */
 export function applyMove(position: Position, move: Move): Position {
-  assertInsideBoard(move.from);
-  assertInsideBoard(move.to);
+  const moving = getPiece(position, move.from);
+  const target = getPiece(position, move.to);
+  if (!moving) {
+    throw new BoardError(
+      BoardErrorCode.MOVE_FROM_EMPTY_POINT,
+      `There is no piece on (${move.from.x}, ${move.from.y})`,
+    );
+  }
+  if (moving.side !== position.turn) {
+    throw new BoardError(BoardErrorCode.MOVE_OUT_OF_TURN, `It is not the turn of ${moving.side}`);
+  }
+  if (target && target.side === moving.side) {
+    throw new BoardError(
+      BoardErrorCode.MOVE_ONTO_OWN_PIECE,
+      `The target (${move.to.x}, ${move.to.y}) holds a piece of the same side`,
+    );
+  }
+
   const next = clonePosition(position);
   const fromRow = next.board[move.from.y];
   const toRow = next.board[move.to.y];
-  const moving = fromRow?.[move.from.x] ?? null;
-  const captured = toRow?.[move.to.x] ?? null;
   if (fromRow) fromRow[move.from.x] = null;
   if (toRow) toRow[move.to.x] = moving;
   next.turn = position.turn === Side.RED ? Side.BLACK : Side.RED;
-  next.halfmoveClock = captured ? 0 : position.halfmoveClock + 1;
+  next.halfmoveClock = target ? 0 : position.halfmoveClock + 1;
   next.fullmoveNumber =
     position.turn === Side.BLACK ? position.fullmoveNumber + 1 : position.fullmoveNumber;
   return next;

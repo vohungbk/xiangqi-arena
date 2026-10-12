@@ -53,6 +53,9 @@ export enum BoardErrorCode {
   INVALID_SIDE = 'INVALID_SIDE',
   INVALID_PIECE_TYPE = 'INVALID_PIECE_TYPE',
   INVALID_PIECE_CHAR = 'INVALID_PIECE_CHAR',
+  MOVE_FROM_EMPTY_POINT = 'MOVE_FROM_EMPTY_POINT',
+  MOVE_OUT_OF_TURN = 'MOVE_OUT_OF_TURN',
+  MOVE_ONTO_OWN_PIECE = 'MOVE_ONTO_OWN_PIECE',
 }
 
 /** Error for a bad point. It carries a code, so a caller can tell the cases apart (ENG-F01 E1). */

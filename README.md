@@ -54,7 +54,7 @@ pnpm --filter @xiangqi/web lint
 
 ```
 apps/
-  web/                 Next.js 14 (App Router), Tailwind, Zustand, Socket.io client
+  web/                 Next.js 16 (App Router), Tailwind 4, shadcn/ui, Zustand, Socket.io client
   server/              NestJS, Socket.io gateway (Redis adapter), Prisma, BullMQ
 packages/
   shared-types/        Enums, WS event types, FEN utils, WXF and Elo helpers
@@ -66,6 +66,21 @@ packages/
 .github/               CI workflow and pull request template
 .claude/               Rules, commands and hooks for Claude Code
 ```
+
+## UI components
+
+The web app uses [shadcn/ui](https://ui.shadcn.com) (Radix UI) for dialogs, menus, toasts and
+basic controls. The components are copied into `apps/web/src/components/ui/` and are ours to
+change.
+
+- Add one with `pnpm dlx shadcn@latest add <name> --cwd apps/web`. The CLI may rewrite
+  `globals.css`, `utils.ts` and `layout.tsx`: review the diff and keep the app tokens.
+- The shadcn colors (`bg-popover`, `text-muted-foreground`, `border-border`, ...) point to the
+  tokens of the app in the `@theme inline` block of `src/app/globals.css`. Do not add a second
+  palette, and do not use raw colors such as `bg-black/50` (a test checks this).
+- The default `Button` is 44 px high, which is the minimum touch target.
+- A dialog that is opened from the shell store has no Radix `Trigger`, so use `useRestoreFocus`
+  to give the focus back to the element that opened it.
 
 ## Branch and commit naming
 

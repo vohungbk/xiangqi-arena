@@ -1,15 +1,15 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
 
 /*
  * Design tokens of Xiangqi Arena.
  * Source: the Figma file "Xiangqi Arena" and the specs in xiangqi-arena-knowledge.
  * "exact" = read from a lossless image or written in a spec.
  * "sampled" = measured on a screenshot of the design (about +-2 per channel).
- * Use these tokens through the Tailwind names in tailwind.config.ts, not as raw hex values.
+ * Tailwind 4 reads these variables from `@theme`. Each `--color-*` name is also the name of its
+ * utilities: `--color-surface-inset` gives `bg-surface-inset`, `text-surface-inset` and so on.
+ * Use the utilities in the components, not raw hex values.
  */
-:root {
+@theme {
   /* Surfaces */
   --color-bg: #111629; /* page, header and nav bars (exact, Figma nav bar) */
   --color-surface: #23283b; /* cards, panels, menus (sampled) */
@@ -34,6 +34,10 @@
   --color-danger: #ef4444; /* clock under 10 s */
   --color-highlight: #7b61ff; /* previous move marker, 30% opacity */
 
+  /* Board colors of the game (not part of the app shell palette) */
+  --color-board: #e8c98a;
+  --color-red-piece: #c0392b;
+
   /* Typography */
   --font-sans:
     'Inter Variable', 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
@@ -41,6 +45,19 @@
   --font-mono:
     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
     monospace;
+}
+
+/* `bg-app` is the page background. It follows `--color-bg`. */
+@theme inline {
+  --color-app: var(--color-bg);
+}
+
+/* Tailwind 4 no longer gives a button the pointer cursor. Keep what Tailwind 3 did. */
+@layer base {
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
 }
 
 body {

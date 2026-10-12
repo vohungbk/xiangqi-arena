@@ -1,4 +1,5 @@
-import { beforeEach, describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { LiveGameKind } from '@/lib/live-game-kind';
 import { useShellStore } from './useShellStore';
 
 const shell = () => useShellStore.getState();
@@ -8,6 +9,8 @@ describe('useShellStore live game scope', () => {
     useShellStore.setState({
       inGame: false,
       liveGameRefs: 0,
+      liveGameKind: null,
+      leaveHandler: null,
       leaveModalOpen: false,
       drawerOpen: false,
     });
@@ -44,6 +47,67 @@ describe('useShellStore live game scope', () => {
       shell().openLeaveModal();
       shell().leaveLiveGame();
       expect(shell().leaveModalOpen).toBe(false);
+    });
+  });
+
+  describe('confirmed leave', () => {
+    it('should run the leave handler once and close the modal', () => {
+      const onLeave = vi.fn();
+      shell().enterLiveGame({ kind: LiveGameKind.AI, onLeave });
+      shell().openLeaveModal();
+      expect(shell().confirmLeave()).toBe(true);
+      expect(onLeave).toHaveBeenCalledTimes(1);
+      expect(shell().leaveModalOpen).toBe(false);
+    });
+
+    it('should do nothing when the modal is not open', () => {
+      const onLeave = vi.fn();
+      shell().enterLiveGame({ kind: LiveGameKind.AI, onLeave });
+      expect(shell().confirmLeave()).toBe(false);
+      expect(onLeave).not.toHaveBeenCalled();
+    });
+
+    it('should do nothing on a second confirm', () => {
+      const onLeave = vi.fn();
+      shell().enterLiveGame({ kind: LiveGameKind.LOCAL, onLeave });
+      shell().openLeaveModal();
+      shell().confirmLeave();
+      expect(shell().confirmLeave()).toBe(false);
+      expect(onLeave).toHaveBeenCalledTimes(1);
+    });
+
+    it('should confirm when the game has no leave handler', () => {
+      shell().enterLiveGame({ kind: LiveGameKind.LOCAL });
+      shell().openLeaveModal();
+      expect(shell().confirmLeave()).toBe(true);
+    });
+  });
+
+  describe('kind and handler of the live game', () => {
+    it('should keep the kind while a live game screen is on', () => {
+      shell().enterLiveGame({ kind: LiveGameKind.LOCAL });
+      expect(shell().liveGameKind).toBe(LiveGameKind.LOCAL);
+    });
+
+    it('should forget the kind and the handler when the last screen goes away', () => {
+      shell().enterLiveGame({ kind: LiveGameKind.AI, onLeave: () => undefined });
+      shell().leaveLiveGame();
+      expect(shell().liveGameKind).toBeNull();
+      expect(shell().leaveHandler).toBeNull();
+    });
+
+    it('should forget the kind and the handler when setInGame forces the shell back', () => {
+      shell().enterLiveGame({ kind: LiveGameKind.AI, onLeave: () => undefined });
+      shell().setInGame(false);
+      expect(shell().liveGameKind).toBeNull();
+      expect(shell().leaveHandler).toBeNull();
+    });
+
+    it('should keep the kind of the other screen when one of two goes away', () => {
+      shell().enterLiveGame({ kind: LiveGameKind.AI });
+      shell().enterLiveGame();
+      shell().leaveLiveGame();
+      expect(shell().liveGameKind).toBe(LiveGameKind.AI);
     });
   });
 

@@ -4,6 +4,7 @@ import { X } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useRef } from 'react';
+import { trapTab } from '@/lib/focus-trap';
 import { isActiveItem, LOGIN_HREF, NAV_ITEMS } from '@/lib/nav-items';
 import { useSessionStore } from '@/store/useSessionStore';
 import { useShellStore } from '@/store/useShellStore';
@@ -11,22 +12,6 @@ import { LanguageButton } from './LanguageButton';
 
 /** From this width the full header shows and the drawer has no place (ENG-F07 R22). */
 const DESKTOP_QUERY = '(min-width: 1024px)';
-
-/** The dialog is modal: wrap Tab and Shift+Tab at the ends of the panel. */
-function trapTab(event: KeyboardEvent, panel: HTMLElement) {
-  const focusable = panel.querySelectorAll<HTMLElement>('a[href], button:not([disabled])');
-  const first = focusable[0];
-  const last = focusable[focusable.length - 1];
-  if (!first || !last) return;
-  const active = document.activeElement;
-  if (event.shiftKey && (active === first || active === panel)) {
-    event.preventDefault();
-    last.focus();
-  } else if (!event.shiftKey && active === last) {
-    event.preventDefault();
-    first.focus();
-  }
-}
 
 /**
  * Drawer "Danh mục" of the compact shell (ENG-F07 R11): the three menu links, the language

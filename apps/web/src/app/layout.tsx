@@ -5,6 +5,7 @@ import { BannerSlot } from '@/components/layout/BannerSlot';
 import { BottomNav } from '@/components/layout/BottomNav';
 import { CompactHeader } from '@/components/layout/CompactHeader';
 import { InGameBar } from '@/components/layout/InGameBar';
+import { LeaveModal } from '@/components/layout/LeaveModal';
 import { SideNav } from '@/components/layout/SideNav';
 import { ToastRegion } from '@/components/layout/ToastRegion';
 import '@fontsource-variable/inter';
@@ -29,6 +30,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         </div>
         <BottomNav />
         <ToastRegion />
+        <LeaveModal />
       </body>
     </html>
   );

@@ -1,6 +1,6 @@
 ---
-description: Read a GitHub ticket, plan against its ACs, wait for approval, then implement
-argument-hint: <issue-number> [--plan-only]
+description: Read a GitHub ticket and plan against its ACs; implement after the user types approve
+argument-hint: <issue-number or issue URL>
 allowed-tools: Bash(gh issue view:*), Bash(git status), Bash(git branch:*), Bash(git log:*), Bash(git diff:*), Read, Grep, Glob, Edit, Write, Bash(pnpm:*), Bash(lsof:*), Bash(curl:*), Bash(pkill:*)
 ---
 
@@ -9,7 +9,7 @@ Implement ticket: $ARGUMENTS
 The ticket already has acceptance criteria (AC). Do not rewrite stories or ACs.
 
 ## Phase 1: Read the ticket
-1. Parse the issue number from `$ARGUMENTS`. Check for the `--plan-only` flag.
+1. Parse the issue number from `$ARGUMENTS`.
 2. Run `gh issue view <number> --repo vohungbk/xiangqi-arena`.
 3. Extract: story, every AC (ID + text), assumptions, dependency, test scenarios.
 4. Check the branch with `git branch --show-current`. It must match `<type>/<issue>-<slug>`, not `main`. If not, stop and tell the user to run `make worktree-new <branch>`.
@@ -27,10 +27,12 @@ The ticket already has acceptance criteria (AC). Do not rewrite stories or ACs.
 
 ## Phase 3: HARD GATE
 Stop after the plan. Ask: "Approve this plan?"
-- No code before the user approves in chat.
-- If `--plan-only` was given, stop here for good.
+- Running `/implement` only plans. Never start Phase 4 in the same turn.
+- No code before the user types `approve` in chat. Any reply that approves counts, for example "approve" or "approve, implement theo đề xuất".
+- Treat "implement theo đề xuất" as: answer every open question with the recommended option.
+- If the reply approves and adds small notes, apply the notes and implement. If the reply only asks for a change or asks a question, update the plan, show it again and ask again. Do not implement yet.
 
-## Phase 4: Implement (only after approval)
+## Phase 4: Implement (only after the user types approve)
 1. Work task by task, following the approved plan. If the plan must change, stop and ask.
 2. Write tests with Vitest. Test names are meaningful, for example "should return error when email is invalid".
 3. Use shared types from `@xiangqi/shared-types`. Never redefine them.

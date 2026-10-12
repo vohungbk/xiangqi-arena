@@ -2,6 +2,7 @@
 import { act, cleanup, render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { makeHeaderUser } from '@/lib/header-user.fixture';
+import { useLiveGame } from '@/lib/use-live-game';
 import { useSessionStore } from '@/store/useSessionStore';
 import { useShellStore } from '@/store/useShellStore';
 import { AppHeader } from './AppHeader';
@@ -25,6 +26,17 @@ function Shell() {
       <BottomNav />
     </>
   );
+}
+
+/** A live game screen. `over` is true after GAME_END. */
+function GameScreen({ over }: { over: boolean }) {
+  useLiveGame(!over);
+  return <main>board</main>;
+}
+
+/** A page such as /analysis or the replay. It never calls `useLiveGame`. */
+function AnalysisPage() {
+  return <main>analysis</main>;
 }
 
 function setInGame(inGame: boolean) {
@@ -109,5 +121,97 @@ describe('the shell in a live game', () => {
     setInGame(false);
     expect(useShellStore.getState().drawerOpen).toBe(false);
     expect(screen.queryByRole('dialog')).toBeNull();
+  });
+  describe('scope of the in-game bar', () => {
+    it('should show the in-game bar on a live game screen', () => {
+      render(
+        <>
+          <Shell />
+          <GameScreen over={false} />
+        </>,
+      );
+      expect(screen.getByRole('button', { name: 'Rời Đi' })).toBeTruthy();
+      expect(screen.queryByRole('navigation', { name: 'Menu cá nhân' })).toBeNull();
+    });
+
+    it('should keep the full shell on a page that is not a live game', () => {
+      render(
+        <>
+          <Shell />
+          <AnalysisPage />
+        </>,
+      );
+      expect(screen.queryByRole('button', { name: 'Rời Đi' })).toBeNull();
+      expect(screen.getByRole('navigation', { name: 'Menu cá nhân' })).toBeTruthy();
+    });
+
+    it('should bring the full shell back when the game is over', () => {
+      const { rerender } = render(
+        <>
+          <Shell />
+          <GameScreen over={false} />
+        </>,
+      );
+      rerender(
+        <>
+          <Shell />
+          <GameScreen over />
+        </>,
+      );
+      expect(screen.queryByRole('button', { name: 'Rời Đi' })).toBeNull();
+      expect(screen.getByRole('navigation', { name: 'Menu cá nhân' })).toBeTruthy();
+    });
+
+    it('should show no confirmation when the player leaves a finished game', () => {
+      const { rerender } = render(
+        <>
+          <Shell />
+          <GameScreen over={false} />
+        </>,
+      );
+      rerender(
+        <>
+          <Shell />
+          <GameScreen over />
+        </>,
+      );
+      act(() => useShellStore.getState().openLeaveModal());
+      expect(useShellStore.getState().leaveModalOpen).toBe(false);
+    });
+
+    it('should close the leave modal when the game ends while it is open', () => {
+      const { rerender } = render(
+        <>
+          <Shell />
+          <GameScreen over={false} />
+        </>,
+      );
+      act(() => useShellStore.getState().openLeaveModal());
+      expect(useShellStore.getState().leaveModalOpen).toBe(true);
+      rerender(
+        <>
+          <Shell />
+          <GameScreen over />
+        </>,
+      );
+      expect(useShellStore.getState().leaveModalOpen).toBe(false);
+    });
+
+    it('should bring the full shell back when the player goes Back to another page', () => {
+      const { rerender } = render(
+        <>
+          <Shell />
+          <GameScreen over={false} />
+        </>,
+      );
+      rerender(
+        <>
+          <Shell />
+          <AnalysisPage />
+        </>,
+      );
+      expect(useShellStore.getState().inGame).toBe(false);
+      expect(screen.getByRole('navigation', { name: 'Menu cá nhân' })).toBeTruthy();
+    });
   });
 });

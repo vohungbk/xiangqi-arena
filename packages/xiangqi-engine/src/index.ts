@@ -21,3 +21,5 @@ export {
 } from './zones';
 
 export { countPieces } from './pieces';
+
+export { createStartingPosition, getPiece, positionsEqual, positionToFen } from './position';

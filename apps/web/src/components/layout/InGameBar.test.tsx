@@ -33,7 +33,8 @@ describe('InGameBar', () => {
     it('should keep every control at least 44 px high', () => {
       render(<InGameBar />);
       for (const button of screen.getAllByRole('button')) {
-        expect(button.className).toContain('min-h-[44px]');
+        // The default size of the Button is min-h-11 (44 px).
+        expect(button.className).toContain('min-h-11');
       }
     });
   });

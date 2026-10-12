@@ -1,6 +1,7 @@
 'use client';
 
 import { Info } from 'lucide-react';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useSessionStore } from '@/store/useSessionStore';
 import { useShellStore } from '@/store/useShellStore';
 
@@ -19,11 +20,12 @@ export function BannerSlot() {
   if (inGame || !emailUnverified) return null;
 
   return (
-    <div role="status" className="w-full border-b border-line bg-surface-selected px-6 py-3">
-      <p className="flex items-center gap-3 text-sm text-fg">
-        <Info className="h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
-        {EMAIL_BANNER_TEXT}
-      </p>
-    </div>
+    <Alert
+      role="status"
+      className="w-full items-center rounded-none border-x-0 border-t-0 bg-surface-selected px-6 py-3"
+    >
+      <Info className="text-primary" aria-hidden="true" />
+      <AlertDescription className="text-foreground">{EMAIL_BANNER_TEXT}</AlertDescription>
+    </Alert>
   );
 }

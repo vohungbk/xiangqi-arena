@@ -1,3 +1,5 @@
+import { Badge } from '@/components/ui/badge';
+
 const COUNT_FORMAT = new Intl.NumberFormat('en-US');
 
 interface OnlineBadgeProps {
@@ -15,13 +17,14 @@ export function OnlineBadge({ count }: OnlineBadgeProps) {
   const formatted = COUNT_FORMAT.format(count);
 
   return (
-    <span
+    <Badge
+      variant="secondary"
       role="status"
       aria-label={`${formatted} người chơi đang online`}
-      className="flex items-center gap-1.5 rounded-full bg-surface px-2.5 py-1 text-xs font-medium"
+      className="h-auto gap-1.5 bg-surface px-2.5 py-1 text-foreground"
     >
-      <span aria-hidden="true" className="h-2 w-2 rounded-full bg-success" />
+      <span aria-hidden="true" className="size-2 rounded-full bg-success" />
       {formatted}
-    </span>
+    </Badge>
   );
 }

@@ -71,7 +71,11 @@ describe('CompactHeader', () => {
     it('should open the user dropdown when the Avatar is clicked', () => {
       login();
       render(<CompactHeader />);
-      fireEvent.click(screen.getByRole('button', { name: /Menu người dùng: minh_anh/ }));
+      // Radix opens a menu on the pointerdown of the main button.
+      fireEvent.pointerDown(screen.getByRole('button', { name: /Menu người dùng: minh_anh/ }), {
+        button: 0,
+        ctrlKey: false,
+      });
       expect(screen.getAllByRole('menuitem').map((item) => item.textContent)).toEqual([
         'Hồ Sơ',
         'Cài Đặt',

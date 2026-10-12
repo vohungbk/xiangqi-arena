@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { act, cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { LiveGameKind } from '@/lib/live-game-kind';
 import { useShellStore } from '@/store/useShellStore';
@@ -39,7 +39,6 @@ describe('LeaveModal', () => {
 
   afterEach(() => {
     cleanup();
-    document.body.style.overflow = '';
   });
 
   describe('text', () => {
@@ -171,14 +170,18 @@ describe('LeaveModal', () => {
       expect(onLeave).not.toHaveBeenCalled();
     });
 
-    it('should keep the game going when the dimmed area is clicked', () => {
+    it('should ask for an explicit answer and not close on a press of the dimmed area', async () => {
       const onLeave = vi.fn();
       render(<LeaveModal />);
       startGame(LiveGameKind.LOCAL, onLeave);
       openModal();
-      fireEvent.click(screen.getByTestId('leave-backdrop'));
-      expect(shell().leaveModalOpen).toBe(false);
-      expect(shell().inGame).toBe(true);
+      await act(async () => {
+        await new Promise((resolve) => setTimeout(resolve, 0));
+      });
+      const overlay = document.querySelector('[data-slot="alert-dialog-overlay"]') as HTMLElement;
+      fireEvent.pointerDown(overlay, { button: 0 });
+      expect(screen.getByRole('alertdialog')).toBeTruthy();
+      expect(shell().leaveModalOpen).toBe(true);
       expect(onLeave).not.toHaveBeenCalled();
     });
 
@@ -214,12 +217,13 @@ describe('LeaveModal', () => {
       render(<LeaveModal />);
       startGame(LiveGameKind.AI);
       openModal();
-      screen.getByRole('button', { name: 'Rời Đi' }).focus();
-      fireEvent.keyDown(document, { key: 'Tab' });
+      const confirm = screen.getByRole('button', { name: 'Rời Đi' });
+      confirm.focus();
+      fireEvent.keyDown(confirm, { key: 'Tab' });
       expect(document.activeElement).toBe(screen.getByRole('button', { name: 'Ở Lại' }));
     });
 
-    it('should return the focus to the element that opened it', () => {
+    it('should return the focus to the element that opened it', async () => {
       const opener = document.createElement('button');
       document.body.appendChild(opener);
       render(<LeaveModal />);
@@ -227,17 +231,17 @@ describe('LeaveModal', () => {
       opener.focus();
       openModal();
       fireEvent.keyDown(document, { key: 'Escape' });
-      expect(document.activeElement).toBe(opener);
+      await waitFor(() => expect(document.activeElement).toBe(opener));
       opener.remove();
     });
 
-    it('should lock the page scroll while open and restore it after', () => {
+    it('should lock the page scroll while open and restore it after', async () => {
       render(<LeaveModal />);
       startGame(LiveGameKind.AI);
       openModal();
-      expect(document.body.style.overflow).toBe('hidden');
+      expect(document.body.hasAttribute('data-scroll-locked')).toBe(true);
       fireEvent.keyDown(document, { key: 'Escape' });
-      expect(document.body.style.overflow).toBe('');
+      await waitFor(() => expect(document.body.hasAttribute('data-scroll-locked')).toBe(false));
     });
   });
 });

@@ -1,6 +1,7 @@
 'use client';
 
 import { LogOut } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { useShellStore } from '@/store/useShellStore';
 import { LogoMark } from './LogoMark';
 
@@ -21,23 +22,25 @@ export function InGameBar() {
 
   return (
     <header className="flex items-center justify-between gap-3 border-b border-line px-4 py-3">
-      <button
+      <Button
         type="button"
+        variant="ghost"
         aria-label={`${APP_NAME} - Rời ván`}
         onClick={openLeaveModal}
-        className="flex min-h-[44px] items-center gap-3 rounded-lg"
+        className="gap-3 px-0 hover:bg-transparent"
       >
-        <LogoMark sizeClass="h-11 w-11" />
+        <LogoMark sizeClass="size-11" />
         <span className="text-lg font-bold leading-tight">{APP_NAME}</span>
-      </button>
-      <button
+      </Button>
+      <Button
         type="button"
+        variant="destructive"
         onClick={openLeaveModal}
-        className="flex min-h-[44px] items-center gap-2 rounded-lg border border-danger px-4 text-sm font-semibold text-danger hover:bg-surface"
+        className="font-semibold"
       >
-        <LogOut className="h-4 w-4" aria-hidden="true" />
+        <LogOut aria-hidden="true" />
         Rời Đi
-      </button>
+      </Button>
     </header>
   );
 }

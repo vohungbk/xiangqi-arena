@@ -7,7 +7,7 @@ import { CompactHeader } from '@/components/layout/CompactHeader';
 import { InGameBar } from '@/components/layout/InGameBar';
 import { LeaveModal } from '@/components/layout/LeaveModal';
 import { SideNav } from '@/components/layout/SideNav';
-import { ToastRegion } from '@/components/layout/ToastRegion';
+import { Toaster } from '@/components/ui/sonner';
 import '@fontsource-variable/inter';
 import './globals.css';
 
@@ -29,7 +29,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <div className="min-w-0 flex-1">{children}</div>
         </div>
         <BottomNav />
-        <ToastRegion />
+        <Toaster />
         <LeaveModal />
       </body>
     </html>

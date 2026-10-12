@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { act, cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { GameMode } from '@xiangqi/shared-types';
 import type { HeaderUser } from '@/lib/header-user';
@@ -66,10 +66,15 @@ describe('UserBlock', () => {
   });
 
   describe('dropdown', () => {
+    /** Radix opens a menu on `pointerdown` of the main button, not on `click`. */
+    function press(element: Element) {
+      fireEvent.pointerDown(element, { button: 0, ctrlKey: false });
+    }
+
     function open() {
       login();
       render(<UserBlock />);
-      fireEvent.click(screen.getByRole('button', { name: /minh_anh/ }));
+      press(screen.getByRole('button', { name: /minh_anh/ }));
     }
 
     it('should be closed at first', () => {
@@ -101,29 +106,49 @@ describe('UserBlock', () => {
       expect(useSessionStore.getState().user).toBeNull();
     });
 
-    it('should close when the player clicks outside', () => {
+    it('should close when the player clicks outside', async () => {
       open();
-      fireEvent.mouseDown(document.body);
-      expect(screen.queryByRole('menu')).toBeNull();
+      // Radix starts to listen for an outside press one tick after the menu opens.
+      await act(async () => {
+        await new Promise((resolve) => setTimeout(resolve, 0));
+      });
+      press(document.body);
+      await waitFor(() => expect(screen.queryByRole('menu')).toBeNull());
     });
 
-    it('should stay open when the player clicks inside the menu', () => {
+    it('should stay open when the player presses inside the menu', () => {
       open();
-      fireEvent.mouseDown(screen.getByRole('menu'));
+      press(screen.getByRole('menu'));
       expect(screen.getByRole('menu')).toBeTruthy();
     });
 
-    it('should close and return the focus to the button when Esc is pressed', () => {
+    it('should close and return the focus to the button when Esc is pressed', async () => {
       open();
       fireEvent.keyDown(document, { key: 'Escape' });
-      expect(screen.queryByRole('menu')).toBeNull();
+      await waitFor(() => expect(screen.queryByRole('menu')).toBeNull());
       expect(document.activeElement).toBe(screen.getByRole('button', { name: /minh_anh/ }));
     });
 
-    it('should close when the trigger is clicked again', () => {
+    it('should close when the trigger is pressed again', async () => {
       open();
-      fireEvent.click(screen.getByRole('button', { name: /minh_anh/ }));
-      expect(screen.queryByRole('menu')).toBeNull();
+      // While the menu is open Radix hides the rest of the page from the accessibility tree.
+      press(screen.getByRole('button', { name: /minh_anh/, hidden: true }));
+      await waitFor(() => expect(screen.queryByRole('menu')).toBeNull());
+    });
+
+    it('should move through the items with the arrow keys', () => {
+      open();
+      const menu = screen.getByRole('menu');
+      fireEvent.keyDown(menu, { key: 'ArrowDown' });
+      const items = screen.getAllByRole('menuitem');
+      expect(items).toContain(document.activeElement);
+    });
+
+    it('should open with the keyboard from the Avatar', () => {
+      login();
+      render(<UserBlock />);
+      fireEvent.keyDown(screen.getByRole('button', { name: /minh_anh/ }), { key: 'Enter' });
+      expect(screen.getByRole('menu')).toBeTruthy();
     });
   });
 });

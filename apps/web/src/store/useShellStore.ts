@@ -1,17 +1,6 @@
 import { create } from 'zustand';
 import type { LiveGameKind } from '@/lib/live-game-kind';
 
-/** A small message over the page, for example a notification in a live game (ENG-F07 R13, E11). */
-export interface Toast {
-  id: number;
-  message: string;
-}
-
-/** The toasts on screen at once. A new one pushes the oldest out. */
-export const MAX_TOASTS = 3;
-
-let nextToastId = 1;
-
 interface ShellState {
   /**
    * True while a live game is on screen (online, AI or local, ENG-F07 R14).
@@ -59,10 +48,6 @@ interface ShellState {
    * returns true. It returns false when the modal is not open, so a second click does nothing.
    */
   confirmLeave: () => boolean;
-  toasts: Toast[];
-  /** Shows a toast. Plain text only. The notification source calls it. */
-  pushToast: (message: string) => void;
-  dismissToast: (id: number) => void;
 }
 
 export const useShellStore = create<ShellState>((set, get) => ({
@@ -127,10 +112,4 @@ export const useShellStore = create<ShellState>((set, get) => ({
     }
     return true;
   },
-  toasts: [],
-  pushToast: (message) =>
-    set((state) => ({
-      toasts: [...state.toasts, { id: nextToastId++, message }].slice(-MAX_TOASTS),
-    })),
-  dismissToast: (id) => set((state) => ({ toasts: state.toasts.filter((t) => t.id !== id) })),
 }));

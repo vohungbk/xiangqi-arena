@@ -2,6 +2,7 @@
 
 import { Menu } from 'lucide-react';
 import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 import { HOME_HREF, LOGIN_HREF } from '@/lib/nav-items';
 import { useSessionStore } from '@/store/useSessionStore';
 import { useShellStore } from '@/store/useShellStore';
@@ -17,15 +18,16 @@ function DrawerButton() {
   const toggleDrawer = useShellStore((state) => state.toggleDrawer);
 
   return (
-    <button
+    <Button
       type="button"
+      variant="ghost"
       aria-expanded={drawerOpen}
       onClick={toggleDrawer}
-      className="flex min-h-[44px] items-center gap-2 rounded-lg px-2 text-sm font-medium hover:bg-surface"
+      className="px-2"
     >
-      <Menu className="h-5 w-5" aria-hidden="true" />
+      <Menu className="size-5" aria-hidden="true" />
       Danh mục
-    </button>
+    </Button>
   );
 }
 
@@ -57,17 +59,14 @@ export function CompactHeader() {
             <div className="flex items-center gap-1">
               <NotificationBell
                 unreadCount={user.unreadCount}
-                className="flex min-h-[44px] min-w-[44px] items-center justify-center"
+                className="min-h-[44px] min-w-[44px]"
               />
               <UserMenu user={user} onLogout={clearUser} compact />
             </div>
           ) : (
-            <Link
-              href={LOGIN_HREF}
-              className="flex min-h-[44px] items-center rounded-lg bg-primary px-3 text-sm font-semibold"
-            >
-              Đăng Nhập / Đăng Ký
-            </Link>
+            <Button asChild className="px-3 font-semibold">
+              <Link href={LOGIN_HREF}>Đăng Nhập / Đăng Ký</Link>
+            </Button>
           )}
         </div>
       </header>

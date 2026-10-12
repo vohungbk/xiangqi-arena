@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import { act, cleanup, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
 import { LanguageButton } from './LanguageButton';
 
@@ -35,10 +35,19 @@ describe('LanguageButton', () => {
     expect(screen.getByRole('button').getAttribute('aria-disabled')).toBe('true');
   });
 
-  it('should show the tooltip Ngôn ngữ khác: Sắp ra mắt', () => {
+  it('should show the tooltip Ngôn ngữ khác: Sắp ra mắt when the keyboard reaches it', async () => {
     const { container } = render(<LanguageButton />);
-    const wrapper = container.firstElementChild;
-    expect(wrapper?.getAttribute('title')).toBe('Ngôn ngữ khác: Sắp ra mắt');
+    // The disabled button has no focus, so the wrapper opens the tooltip.
+    const wrapper = container.firstElementChild as HTMLElement;
+    expect(screen.queryByRole('tooltip')).toBeNull();
+    act(() => wrapper.focus());
+    const tooltip = await screen.findByRole('tooltip');
+    expect(tooltip.textContent).toBe('Ngôn ngữ khác: Sắp ra mắt');
+  });
+
+  it('should let the keyboard reach the tooltip through a focusable wrapper', () => {
+    const { container } = render(<LanguageButton />);
+    expect((container.firstElementChild as HTMLElement).tabIndex).toBe(0);
   });
 
   it('should describe the reason to assistive tools', () => {

@@ -1,4 +1,5 @@
 import {
+  allPoints,
   assertInsideBoard,
   fenCharToPiece,
   parseFen,
@@ -6,9 +7,15 @@ import {
   START_FEN,
   toFen,
   type Piece,
+  type PlacedPiece,
   type Point,
+  type PointReading,
   type Position,
 } from '@xiangqi/shared-types';
+
+function copyPiece(piece: Piece): Piece {
+  return { type: piece.type, side: piece.side };
+}
 
 /**
  * A new game in the standard WXF starting position with Red to move (ENG-F01 R7, R8).
@@ -28,11 +35,37 @@ export function createStartingPosition(): Position {
 
 /**
  * The piece at a point, or null for an empty point (ENG-F01 E2).
+ * It returns a copy, so changing it never changes the position (E5).
  * A point outside the board throws a `BoardError` and never returns a piece (E1).
  */
 export function getPiece(position: Position, point: Point): Piece | null {
   assertInsideBoard(point);
-  return position.board[point.y]?.[point.x] ?? null;
+  const piece = position.board[point.y]?.[point.x];
+  return piece ? copyPiece(piece) : null;
+}
+
+/**
+ * The piece at a point with its type, side and point (ENG-F01 R13), or null for an empty point.
+ * It returns a copy. A point outside the board throws a `BoardError`.
+ */
+export function readPoint(position: Position, point: Point): PlacedPiece | null {
+  const piece = getPiece(position, point);
+  return piece ? { ...piece, point: { x: point.x, y: point.y } } : null;
+}
+
+/** All 90 points of the board, from the Black side, with the piece on each (ENG-F01 R9, R1). */
+export function readAllPoints(position: Position): PointReading[] {
+  return allPoints().map((point) => ({ point, piece: readPoint(position, point) }));
+}
+
+/** A deep copy of a position. Changing the copy never changes the original (ENG-F01 E5). */
+export function clonePosition(position: Position): Position {
+  return {
+    board: position.board.map((row) => row.map((piece) => (piece ? copyPiece(piece) : null))),
+    turn: position.turn,
+    halfmoveClock: position.halfmoveClock,
+    fullmoveNumber: position.fullmoveNumber,
+  };
 }
 
 /** The FEN of a position. */

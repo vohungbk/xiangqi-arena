@@ -1,3 +1,4 @@
+import type { Point } from './board';
 import type { Piece, Side } from './pieces';
 
 /**
@@ -11,4 +12,15 @@ export interface Position {
   turn: Side;
   halfmoveClock: number;
   fullmoveNumber: number;
+}
+
+/** A piece that reports its type, its side and its point (ENG-F01 R13). */
+export interface PlacedPiece extends Piece {
+  point: Point;
+}
+
+/** One point of a position and what is on it. `piece` is null for an empty point (E2). */
+export interface PointReading {
+  point: Point;
+  piece: PlacedPiece | null;
 }

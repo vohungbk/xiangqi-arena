@@ -23,6 +23,7 @@ export {
 export { countPieces } from './pieces';
 
 export {
+  applyMove,
   clonePosition,
   createStartingPosition,
   getPiece,

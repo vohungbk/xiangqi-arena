@@ -4,8 +4,10 @@ import {
   fenCharToPiece,
   parseFen,
   pieceToFenChar,
+  Side,
   START_FEN,
   toFen,
+  type Move,
   type Piece,
   type PlacedPiece,
   type Point,
@@ -88,4 +90,31 @@ export function positionsEqual(a: Position, b: Position): boolean {
   return a.board.every((row, y) =>
     row.every((piece, x) => samePiece(piece, b.board[y]?.[x] ?? null)),
   );
+}
+
+/**
+ * Apply a move that ENG-F02 already accepted and return a new position (ENG-F01 R10).
+ * The piece moves to the target point, the piece there (if any) is removed, and the side to
+ * move switches. The half-move clock goes back to 0 on a capture and grows by 1 otherwise. The
+ * full-move number grows by 1 after a Black move. The given position is not changed (E5).
+ *
+ * The engine trusts the move and does not check the rules here (ENG-F01-S06-ASM01). A move
+ * from an empty point, or onto a piece of the same side, is refused by ENG-F01-S07, not here.
+ * A point outside the board throws a `BoardError` (E1).
+ */
+export function applyMove(position: Position, move: Move): Position {
+  assertInsideBoard(move.from);
+  assertInsideBoard(move.to);
+  const next = clonePosition(position);
+  const fromRow = next.board[move.from.y];
+  const toRow = next.board[move.to.y];
+  const moving = fromRow?.[move.from.x] ?? null;
+  const captured = toRow?.[move.to.x] ?? null;
+  if (fromRow) fromRow[move.from.x] = null;
+  if (toRow) toRow[move.to.x] = moving;
+  next.turn = position.turn === Side.RED ? Side.BLACK : Side.RED;
+  next.halfmoveClock = captured ? 0 : position.halfmoveClock + 1;
+  next.fullmoveNumber =
+    position.turn === Side.BLACK ? position.fullmoveNumber + 1 : position.fullmoveNumber;
+  return next;
 }

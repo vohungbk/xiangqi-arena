@@ -7,6 +7,26 @@ export const BOARD = {
   POINTS: 90,
 } as const;
 
+/**
+ * The two Palaces (ENG-F01 R3). Both span the files d to f (x 3 to 5).
+ * The Black Palace is at the top (y 0 to 2) and the Red Palace at the bottom (y 7 to 9).
+ */
+export const PALACE = {
+  MIN_X: 3,
+  MAX_X: 5,
+  BLACK: { MIN_Y: 0, MAX_Y: 2 },
+  RED: { MIN_Y: 7, MAX_Y: 9 },
+} as const;
+
+/**
+ * The River (ENG-F01 R4) lies between two ranks and holds no point.
+ * y = 4 is the Black bank and y = 5 is the Red bank.
+ */
+export const RIVER = {
+  BLACK_BANK_Y: 4,
+  RED_BANK_Y: 5,
+} as const;
+
 /** File letters from left to right, so x = 0 is `a` and x = 8 is `i` (ENG-F01 R2). */
 export const FILE_LETTERS = 'abcdefghi';
 

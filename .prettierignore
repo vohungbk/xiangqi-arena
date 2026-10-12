@@ -7,6 +7,8 @@ node_modules
 
 # Generated
 pnpm-lock.yaml
+# Rewritten by Next on every dev and build (Next 16 adds double-quoted imports)
+apps/web/next-env.d.ts
 
 # Managed centrally (PM/QA plugin and Claude Code harness)
 .claude

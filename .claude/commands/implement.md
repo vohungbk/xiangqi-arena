@@ -38,7 +38,7 @@ Stop after the plan. Ask: "Approve this plan?"
 5. Run `/simplify` and apply the fixes.
 6. Run `/verify` at the end and show the exit codes. Run it after steps 4 and 5, because they change the code.
 7. Right after step 6 is green, start the dev server for the user to review. Do not ask first.
-   - Run it in the background from the worktree root: `pnpm --filter @xiangqi/web exec next dev -p 3000`. Next must start inside `apps/web`, so do not call the `next` binary from the repo root.
+   - Run it in the background from the worktree root: `pnpm --filter @xiangqi/web dev` (the script runs `next dev -p 3000 --webpack`). Next must start inside `apps/web`, so do not call the `next` binary from the repo root. The `--webpack` flag is needed since Next 16: the config has a custom webpack block for the Wasm engine.
    - Check that port 3000 is free first (`lsof -i :3000`). Check that the server answers HTTP 200 on `http://localhost:3000`.
    - If the feature needs a logged-in user, seed a test user with a temporary uncommitted component. Say so, and remove it before any commit.
    - Give the user the URL, the pages and states to check, and anything known to be missing (for example a page that 404s because another feature owns it).

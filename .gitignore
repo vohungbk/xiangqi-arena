@@ -17,3 +17,6 @@ coverage
 
 # Vitest json report written by CI
 test-results.json
+
+# Written by next dev for AI agents (Next 16)
+apps/web/AGENTS.md

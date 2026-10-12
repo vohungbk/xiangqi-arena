@@ -85,9 +85,21 @@ describe('every package uses the shared ESLint config', () => {
     expect(packages.length).toBeGreaterThanOrEqual(4);
   });
 
-  it.each(packages)('should extend @xiangqi/config-eslint in %s', (path) => {
-    const config = readFileSync(join(path, '.eslintrc.js'), 'utf8');
+  // The web app uses a flat config (ESLint 9) with the shared rules. The others extend base.js.
+  it.each(packages)('should use @xiangqi/config-eslint in %s', (path) => {
+    const file = ['.eslintrc.js', 'eslint.config.mjs'].find((name) => existsSync(join(path, name)));
+    expect(file, `no ESLint config in ${path}`).toBeTruthy();
+    const config = readFileSync(join(path, file as string), 'utf8');
     expect(config).toContain('@xiangqi/config-eslint');
+  });
+
+  it('should give the flat config of the web app the same rules as base.js', () => {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const shared = require(join(PKG_DIR, 'rules.js')) as Record<string, unknown>;
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const base = require(join(PKG_DIR, 'base.js')) as { rules: Record<string, unknown> };
+    expect(base.rules).toEqual(shared);
+    expect(shared['@typescript-eslint/no-explicit-any']).toBe('error');
   });
 
   it.each(packages)('should define a lint script in %s', (path) => {

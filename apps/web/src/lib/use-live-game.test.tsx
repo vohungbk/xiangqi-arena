@@ -1,14 +1,21 @@
 // @vitest-environment jsdom
 import { act, cleanup, renderHook } from '@testing-library/react';
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useShellStore } from '@/store/useShellStore';
+import { LiveGameKind } from './live-game-kind';
 import { useLiveGame } from './use-live-game';
 
 const shell = () => useShellStore.getState();
 
 describe('useLiveGame', () => {
   beforeEach(() => {
-    useShellStore.setState({ inGame: false, liveGameRefs: 0, leaveModalOpen: false });
+    useShellStore.setState({
+      inGame: false,
+      liveGameRefs: 0,
+      leaveModalOpen: false,
+      liveGameKind: null,
+      leaveHandler: null,
+    });
   });
 
   afterEach(() => {
@@ -55,6 +62,42 @@ describe('useLiveGame', () => {
     renderHook(() => useLiveGame());
     first.unmount();
     expect(shell().inGame).toBe(true);
+  });
+
+  it('should tell the shell the kind of the game', () => {
+    renderHook(() => useLiveGame(true, { kind: LiveGameKind.AI }));
+    expect(shell().liveGameKind).toBe(LiveGameKind.AI);
+  });
+
+  it('should run the latest onLeave once when the leave is confirmed', () => {
+    const first = vi.fn();
+    const second = vi.fn();
+    const { rerender } = renderHook(
+      ({ onLeave }) => useLiveGame(true, { kind: LiveGameKind.LOCAL, onLeave }),
+      { initialProps: { onLeave: first } },
+    );
+    rerender({ onLeave: second });
+    act(() => {
+      shell().openLeaveModal();
+      shell().confirmLeave();
+    });
+    expect(first).not.toHaveBeenCalled();
+    expect(second).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not enter the game again when only the callback changes', () => {
+    const { rerender } = renderHook(
+      ({ onLeave }) => useLiveGame(true, { kind: LiveGameKind.AI, onLeave }),
+      { initialProps: { onLeave: () => undefined } },
+    );
+    rerender({ onLeave: () => undefined });
+    expect(shell().liveGameRefs).toBe(1);
+  });
+
+  it('should forget the kind when the screen goes away', () => {
+    const { unmount } = renderHook(() => useLiveGame(true, { kind: LiveGameKind.AI }));
+    unmount();
+    expect(shell().liveGameKind).toBeNull();
   });
 
   it('should leave a page that does not use the hook with the full shell', () => {

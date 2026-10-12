@@ -10,3 +10,12 @@ export function isStartPosition(fen: string): boolean {
 }
 
 export { pieceAt } from './board';
+export {
+  getZone,
+  isAcrossRiver,
+  isInPalace,
+  palaceBounds,
+  riverSideOf,
+  type PalaceBounds,
+  type Zone,
+} from './zones';

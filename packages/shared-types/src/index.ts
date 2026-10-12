@@ -4,6 +4,10 @@
  * shared by apps/web and apps/server.
  * ========================================================================= */
 
+import { BOARD } from './board';
+
+export * from './board';
+
 /* ----------------------------- Enums ----------------------------------- */
 
 /** Three independent rating pools. Time control is "base minutes + increment seconds". */
@@ -187,7 +191,7 @@ export function parseFen(fen: string): ParsedFen {
   const placement = parts[0];
   if (!placement) throw new Error('Invalid FEN: empty placement');
   const rows = placement.split('/');
-  if (rows.length !== 10) throw new Error('Invalid FEN: expected 10 rows');
+  if (rows.length !== BOARD.RANKS) throw new Error('Invalid FEN: expected 10 rows');
 
   const board = rows.map((row) => {
     const cells: string[] = [];
@@ -200,7 +204,7 @@ export function parseFen(fen: string): ParsedFen {
         throw new Error(`Invalid FEN: unknown piece "${ch}"`);
       }
     }
-    if (cells.length !== 9) throw new Error('Invalid FEN: each row needs 9 files');
+    if (cells.length !== BOARD.FILES) throw new Error('Invalid FEN: each row needs 9 files');
     return cells;
   });
 

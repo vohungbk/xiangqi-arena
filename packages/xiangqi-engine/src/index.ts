@@ -8,3 +8,5 @@ import { START_FEN } from '@xiangqi/shared-types';
 export function isStartPosition(fen: string): boolean {
   return fen.trim() === START_FEN;
 }
+
+export { pieceAt } from './board';

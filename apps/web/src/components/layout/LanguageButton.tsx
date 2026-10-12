@@ -24,7 +24,7 @@ export function LanguageButton() {
         aria-describedby={hintId}
         className="flex cursor-not-allowed items-center gap-2 rounded-lg px-2 py-1 text-sm text-fg-muted opacity-60"
       >
-        <VietnamFlag className="h-4 w-6 shrink-0 rounded-sm" />
+        <VietnamFlag className="h-4 w-6 shrink-0 rounded-xs" />
         {LANGUAGE_LABEL}
       </button>
       <span id={hintId} className="sr-only">

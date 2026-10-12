@@ -16,7 +16,7 @@ interface UserMenuProps {
 }
 
 const ITEM_CLASS =
-  'block w-full px-4 py-2 text-left text-sm text-fg hover:bg-surface-inset focus:bg-surface-inset focus:outline-none';
+  'block w-full px-4 py-2 text-left text-sm text-fg hover:bg-surface-inset focus:bg-surface-inset focus:outline-hidden';
 
 export function UserMenu({ user, onLogout, compact = false }: UserMenuProps) {
   const [open, setOpen] = useState(false);
@@ -66,7 +66,7 @@ export function UserMenu({ user, onLogout, compact = false }: UserMenuProps) {
         {!compact && (
           <>
             <span className="flex min-w-0 flex-col text-left">
-              <span className="max-w-[10rem] truncate text-sm font-semibold">{user.username}</span>
+              <span className="max-w-40 truncate text-sm font-semibold">{user.username}</span>
               <span className="whitespace-nowrap text-xs text-fg-muted">
                 {formatHeaderRating(rating)}
                 {rating.provisional ? ' · Đang Đánh Giá' : ''}

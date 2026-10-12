@@ -5,8 +5,10 @@
  * ========================================================================= */
 
 import { BOARD } from './board';
+import { Side } from './pieces';
 
 export * from './board';
+export * from './pieces';
 
 /* ----------------------------- Enums ----------------------------------- */
 
@@ -36,11 +38,6 @@ export enum GameEndReason {
   REPETITION = 'REPETITION',
   NO_PROGRESS = 'NO_PROGRESS',
   ABANDONED_EARLY = 'ABANDONED_EARLY',
-}
-
-export enum Side {
-  RED = 'RED',
-  BLACK = 'BLACK',
 }
 
 /** Client -> Server and Server -> Client WebSocket event names. */

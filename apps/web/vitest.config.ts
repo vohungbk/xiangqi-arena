@@ -4,7 +4,8 @@ import base from '@xiangqi/config-vitest';
 
 export default defineConfig({
   // tsconfig keeps JSX for Next.js. Vitest needs the automatic runtime for .tsx tests.
-  esbuild: { jsx: 'automatic' },
+  // Vite 8 transforms with Oxc, so this is `oxc` and no longer `esbuild`.
+  oxc: { jsx: { runtime: 'automatic' } },
   // Same alias as `paths` in tsconfig.json.
   resolve: { alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) } },
   test: { pool: 'threads', environment: 'node', coverage: base.coverage },

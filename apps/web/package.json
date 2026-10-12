@@ -26,10 +26,10 @@
     "@tailwindcss/postcss": "^4.3.3",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.0.1",
-    "@types/node": "^20.16.10",
+    "@types/node": "^22.20.5",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
-    "@vitest/coverage-v8": "^2.1.2",
+    "@vitest/coverage-v8": "^5.0.3",
     "@xiangqi/config-eslint": "workspace:*",
     "@xiangqi/config-typescript": "workspace:*",
     "@xiangqi/config-vitest": "workspace:*",
@@ -39,8 +39,9 @@
     "jsdom": "^29.1.1",
     "postcss": "^8.4.47",
     "tailwindcss": "^4.3.3",
-    "typescript": "^5.6.2",
+    "typescript": "^6.0.3",
     "typescript-eslint": "^8.46.0",
-    "vitest": "^2.1.2"
+    "vite": "^8",
+    "vitest": "^5.0.3"
   }
 }

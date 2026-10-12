@@ -37,10 +37,29 @@ describe('design tokens', () => {
 
   it('should only alias a color to a token that exists', () => {
     const aliases = colorVars.filter(([, value]) => isAlias(value));
-    expect(aliases.map(([name]) => name)).toEqual(['--color-app']);
+    // `--color-app` and the names of the shadcn/ui components (background, popover, border...).
+    expect(aliases.map(([name]) => name)).toContain('--color-app');
     for (const [name, value] of aliases) {
       const target = /^var\((--[a-z0-9-]+)\)$/.exec(value)?.[1] ?? '';
       expect(vars.has(target), `${name} -> ${target}`).toBe(true);
+      // An alias points to a token of the app, never to another alias or to a raw value.
+      expect(isAlias(vars.get(target) ?? ''), `${name} -> ${target} is an alias`).toBe(false);
+    }
+  });
+
+  it('should give the shadcn/ui color names to the tokens of the app', () => {
+    const expected: Record<string, string> = {
+      '--color-background': '--color-bg',
+      '--color-foreground': '--color-fg',
+      '--color-card': '--color-surface',
+      '--color-popover': '--color-surface',
+      '--color-muted-foreground': '--color-fg-muted',
+      '--color-destructive': '--color-danger',
+      '--color-border': '--color-line',
+      '--color-ring': '--color-gold',
+    };
+    for (const [name, token] of Object.entries(expected)) {
+      expect(vars.get(name), name).toBe(`var(${token})`);
     }
   });
 

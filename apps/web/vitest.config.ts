@@ -8,5 +8,11 @@ export default defineConfig({
   oxc: { jsx: { runtime: 'automatic' } },
   // Same alias as `paths` in tsconfig.json.
   resolve: { alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) } },
-  test: { pool: 'threads', environment: 'node', coverage: base.coverage },
+  test: {
+    pool: 'threads',
+    environment: 'node',
+    // Stand-ins for the browser APIs that Radix UI needs and jsdom lacks.
+    setupFiles: ['./src/test-setup.ts'],
+    coverage: base.coverage,
+  },
 });

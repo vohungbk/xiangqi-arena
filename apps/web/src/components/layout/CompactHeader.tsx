@@ -40,6 +40,10 @@ function CompactOnlineBadge() {
 export function CompactHeader() {
   const user = useSessionStore((state) => state.user);
   const clearUser = useSessionStore((state) => state.clearUser);
+  const inGame = useShellStore((state) => state.inGame);
+
+  // A live game shows the in-game bar instead (ENG-F07 R13).
+  if (inGame) return null;
 
   return (
     <div className="lg:hidden">

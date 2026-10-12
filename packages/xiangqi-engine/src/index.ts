@@ -22,4 +22,12 @@ export {
 
 export { countPieces } from './pieces';
 
-export { createStartingPosition, getPiece, positionsEqual, positionToFen } from './position';
+export {
+  clonePosition,
+  createStartingPosition,
+  getPiece,
+  positionsEqual,
+  positionToFen,
+  readAllPoints,
+  readPoint,
+} from './position';

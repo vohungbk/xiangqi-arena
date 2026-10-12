@@ -44,6 +44,9 @@ export enum BoardErrorCode {
   INVALID_POINT = 'INVALID_POINT',
   INVALID_POINT_TEXT = 'INVALID_POINT_TEXT',
   INVALID_MOVE_TEXT = 'INVALID_MOVE_TEXT',
+  INVALID_SIDE = 'INVALID_SIDE',
+  INVALID_PIECE_TYPE = 'INVALID_PIECE_TYPE',
+  INVALID_PIECE_CHAR = 'INVALID_PIECE_CHAR',
 }
 
 /** Error for a bad point. It carries a code, so a caller can tell the cases apart (ENG-F01 E1). */

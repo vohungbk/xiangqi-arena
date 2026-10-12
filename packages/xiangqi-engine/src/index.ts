@@ -19,3 +19,5 @@ export {
   type PalaceBounds,
   type Zone,
 } from './zones';
+
+export { countPieces } from './pieces';

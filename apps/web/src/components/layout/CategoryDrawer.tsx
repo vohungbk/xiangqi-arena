@@ -83,7 +83,7 @@ export function CategoryDrawer() {
         aria-modal="true"
         aria-label="Danh mục"
         tabIndex={-1}
-        className="absolute inset-y-0 left-0 flex w-[280px] max-w-[85vw] flex-col gap-4 overflow-y-auto border-r border-line bg-app p-4 focus:outline-none"
+        className="absolute inset-y-0 left-0 flex w-[280px] max-w-[85vw] flex-col gap-4 overflow-y-auto border-r border-line bg-app p-4 focus:outline-hidden"
       >
         <div className="flex items-center justify-between">
           <span className="text-sm font-semibold">Danh mục</span>

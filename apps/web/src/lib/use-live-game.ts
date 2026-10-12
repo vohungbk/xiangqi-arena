@@ -23,10 +23,12 @@ interface LiveGameOptions {
  * search do not call it, so they keep the full shell.
  */
 export function useLiveGame(active = true, options: LiveGameOptions = {}): void {
-  const { kind } = options;
+  const { kind, onLeave } = options;
   // A ref keeps the latest callback without entering the game again on every render.
-  const onLeaveRef = useRef(options.onLeave);
-  onLeaveRef.current = options.onLeave;
+  const onLeaveRef = useRef(onLeave);
+  useEffect(() => {
+    onLeaveRef.current = onLeave;
+  }, [onLeave]);
 
   useEffect(() => {
     if (!active) return;

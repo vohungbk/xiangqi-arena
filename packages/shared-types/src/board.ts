@@ -39,6 +39,12 @@ export interface Point {
   y: number;
 }
 
+/** A move from one point to another (ENG-F01 R10). Its text form is for example `b2e2`. */
+export interface Move {
+  from: Point;
+  to: Point;
+}
+
 export enum BoardErrorCode {
   POINT_OUT_OF_BOARD = 'POINT_OUT_OF_BOARD',
   INVALID_POINT = 'INVALID_POINT',
@@ -135,7 +141,7 @@ export function moveToText(from: Point, to: Point): string {
 }
 
 /** Read the text form of a move, for example `b2e2`. */
-export function textToMove(text: string): { from: Point; to: Point } {
+export function textToMove(text: string): Move {
   if (text.length !== 4) {
     throw new BoardError(
       BoardErrorCode.INVALID_MOVE_TEXT,

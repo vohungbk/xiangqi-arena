@@ -8,6 +8,7 @@ import { BOARD } from './board';
 import { Side } from './pieces';
 
 export * from './board';
+export * from './move-input';
 export * from './pieces';
 export * from './position';
 

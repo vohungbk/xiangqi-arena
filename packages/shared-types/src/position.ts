@@ -34,3 +34,14 @@ export interface MoveResult {
   position: Position;
   captured: PlacedPiece | null;
 }
+
+/**
+ * What `createPosition` builds a position from: a list of pieces and the side to move.
+ * The counters default to 0 and 1.
+ */
+export interface PositionInput {
+  pieces: readonly PlacedPiece[];
+  turn: Side;
+  halfmoveClock?: number;
+  fullmoveNumber?: number;
+}

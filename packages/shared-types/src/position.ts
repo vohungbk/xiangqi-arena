@@ -24,3 +24,13 @@ export interface PointReading {
   point: Point;
   piece: PlacedPiece | null;
 }
+
+/**
+ * The result of a move (ENG-F01 R10, R12): the new position and the piece that was captured.
+ * `captured` has its type, side and point, so Replay and the UI show a capture without a
+ * second lookup. It is null when the move does not capture.
+ */
+export interface MoveResult {
+  position: Position;
+  captured: PlacedPiece | null;
+}

@@ -10,6 +10,7 @@ import {
   START_FEN,
   toFen,
   type Move,
+  type MoveResult,
   type Piece,
   type PlacedPiece,
   type Point,
@@ -96,9 +97,20 @@ export function positionsEqual(a: Position, b: Position): boolean {
 
 /**
  * Apply a move that ENG-F02 already accepted and return a new position (ENG-F01 R10).
- * The piece moves to the target point, the piece there (if any) is removed, and the side to
- * move switches. The half-move clock goes back to 0 on a capture and grows by 1 otherwise. The
- * full-move number grows by 1 after a Black move. The given position is not changed (E5).
+ * It is `applyMoveWithCapture` without the capture record.
+ */
+export function applyMove(position: Position, move: Move): Position {
+  return applyMoveWithCapture(position, move).position;
+}
+
+/**
+ * Apply a move that ENG-F02 already accepted and return the new position and the captured
+ * piece (ENG-F01 R10, R12).
+ *
+ * The piece moves to the target point, the piece there (if any) is removed and reported in
+ * `captured` with its type, side and point, and the side to move switches. The half-move clock
+ * goes back to 0 on a capture and grows by 1 otherwise. The full-move number grows by 1 after
+ * a Black move. The given position is not changed (E5).
  *
  * The engine does not check the rules of a piece (ENG-F02 does). It refuses a move that would
  * damage the position and throws a `BoardError`, and the position is left as it was (R11):
@@ -107,7 +119,7 @@ export function positionsEqual(a: Position, b: Position): boolean {
  * - `MOVE_OUT_OF_TURN`: the piece is of the side that is not to move
  * - `MOVE_ONTO_OWN_PIECE`: the target holds a piece of the same side (E4)
  */
-export function applyMove(position: Position, move: Move): Position {
+export function applyMoveWithCapture(position: Position, move: Move): MoveResult {
   const moving = getPiece(position, move.from);
   const target = getPiece(position, move.to);
   if (!moving) {
@@ -135,5 +147,8 @@ export function applyMove(position: Position, move: Move): Position {
   next.halfmoveClock = target ? 0 : position.halfmoveClock + 1;
   next.fullmoveNumber =
     position.turn === Side.BLACK ? position.fullmoveNumber + 1 : position.fullmoveNumber;
-  return next;
+  return {
+    position: next,
+    captured: target ? { ...target, point: { x: move.to.x, y: move.to.y } } : null,
+  };
 }

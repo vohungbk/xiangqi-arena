@@ -1,6 +1,7 @@
 import {
   allPoints,
   assertInsideBoard,
+  BOARD,
   BoardError,
   BoardErrorCode,
   fenCharToPiece,
@@ -16,6 +17,7 @@ import {
   type Point,
   type PointReading,
   type Position,
+  type PositionInput,
 } from '@xiangqi/shared-types';
 
 function copyPiece(piece: Piece): Piece {
@@ -150,5 +152,43 @@ export function applyMoveWithCapture(position: Position, move: Move): MoveResult
   return {
     position: next,
     captured: target ? { ...target, point: { x: move.to.x, y: move.to.y } } : null,
+  };
+}
+
+/**
+ * Build a position from a list of pieces (ENG-F01-S10).
+ *
+ * The engine represents a position and does not judge it. A position with no General, with 3
+ * Cannons for one side, with a General outside the Palace or with two Generals facing each
+ * other is built like any other (E6, E7). ENG-F04 validates a position when it loads a FEN
+ * (Q4); do not rely on this function to refuse a position that breaks the rules of the game.
+ *
+ * It refuses only what cannot be represented, with a `BoardError`: a point outside the board
+ * (`POINT_OUT_OF_BOARD`) and two pieces on the same point (`POINT_OCCUPIED`). The counters are
+ * taken as they are. The list and the pieces are copied, so changing them later does not
+ * change the position. Pass the type and the side through `parsePieceType` and `parseSide`
+ * first when they come from outside.
+ */
+export function createPosition(input: PositionInput): Position {
+  const board: (Piece | null)[][] = Array.from({ length: BOARD.RANKS }, () =>
+    Array.from({ length: BOARD.FILES }, () => null),
+  );
+  for (const piece of input.pieces) {
+    assertInsideBoard(piece.point);
+    const row = board[piece.point.y];
+    if (!row) continue;
+    if (row[piece.point.x]) {
+      throw new BoardError(
+        BoardErrorCode.POINT_OCCUPIED,
+        `There are two pieces on (${piece.point.x}, ${piece.point.y})`,
+      );
+    }
+    row[piece.point.x] = { type: piece.type, side: piece.side };
+  }
+  return {
+    board,
+    turn: input.turn,
+    halfmoveClock: input.halfmoveClock ?? 0,
+    fullmoveNumber: input.fullmoveNumber ?? 1,
   };
 }

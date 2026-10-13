@@ -26,6 +26,7 @@ export {
   applyMove,
   applyMoveWithCapture,
   clonePosition,
+  createPosition,
   createStartingPosition,
   getPiece,
   positionsEqual,

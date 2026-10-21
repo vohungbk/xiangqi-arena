@@ -36,3 +36,5 @@ export {
 } from './position';
 
 export { checkBoundsAndSource, checkCapture, checkTurn } from './move-rules';
+
+export { checkAdvisorMove, checkGeneralMove } from './piece-rules';

@@ -29,7 +29,7 @@ export function checkBoundsAndSource(position: Position, move: Move): MoveReason
  * The piece at a point, or null when the point is outside the board or empty. The rules below
  * use it so that they never throw: a bad point is reported by `checkBoundsAndSource`.
  */
-function pieceOrNull(position: Position, point: Move['from']): Piece | null {
+export function pieceOrNull(position: Position, point: Move['from']): Piece | null {
   return isInsideBoard(point) ? getPiece(position, point) : null;
 }
 

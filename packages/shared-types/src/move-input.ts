@@ -19,6 +19,8 @@ export enum MoveReasonCode {
   WRONG_TURN = 'wrong_turn',
   /** The target holds a piece of the same side as the piece that moves (R9, E4). */
   OWN_PIECE = 'own_piece',
+  /** The move does not follow the pattern of the piece, or leaves its zone (R1 to R7). */
+  ILLEGAL_PATTERN = 'illegal_pattern',
 }
 
 /** The result of reading a move from input: the move, or a reason code. It never throws. */

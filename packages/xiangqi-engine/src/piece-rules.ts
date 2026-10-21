@@ -6,7 +6,7 @@ import {
   type Position,
 } from '@xiangqi/shared-types';
 import { pieceOrNull } from './move-rules';
-import { isInPalace } from './zones';
+import { isAcrossRiver, isInPalace } from './zones';
 
 /**
  * The rules of the pieces (ENG-F02 R1 to R7). Each rule has the form of the other rules of the
@@ -46,4 +46,38 @@ export function checkAdvisorMove(position: Position, move: Move): MoveReasonCode
   const { dx, dy } = steps(move);
   const oneStepDiagonal = dx === 1 && dy === 1;
   return oneStepDiagonal && isInPalace(move.to, piece.side) ? null : MoveReasonCode.ILLEGAL_PATTERN;
+}
+
+/**
+ * The Elephant (ENG-F02 R3): 2 steps on a diagonal, the target stays on its own side of the
+ * River, and the middle point (the eye) is empty. A piece on the eye blocks the move, whatever
+ * its colour (ENG-F02-S05-ASM01).
+ */
+export function checkElephantMove(position: Position, move: Move): MoveReasonCode | null {
+  const piece = pieceOrNull(position, move.from);
+  if (piece?.type !== PieceType.ELEPHANT || !isInsideBoard(move.to)) return null;
+  const { dx, dy } = steps(move);
+  if (dx !== 2 || dy !== 2 || isAcrossRiver(move.to, piece.side)) {
+    return MoveReasonCode.ILLEGAL_PATTERN;
+  }
+  const eye = { x: (move.from.x + move.to.x) / 2, y: (move.from.y + move.to.y) / 2 };
+  return pieceOrNull(position, eye) === null ? null : MoveReasonCode.ILLEGAL_PATTERN;
+}
+
+/**
+ * The Horse (ENG-F02 R4): 1 step along a file or a rank, then 1 step on a diagonal outward, and
+ * the leg (the point of the first step) is empty. A piece on the leg blocks the move, whatever
+ * its colour (ENG-F02-S05-ASM01).
+ */
+export function checkHorseMove(position: Position, move: Move): MoveReasonCode | null {
+  const piece = pieceOrNull(position, move.from);
+  if (piece?.type !== PieceType.HORSE || !isInsideBoard(move.to)) return null;
+  const { dx, dy } = steps(move);
+  const isLShape = (dx === 1 && dy === 2) || (dx === 2 && dy === 1);
+  if (!isLShape) return MoveReasonCode.ILLEGAL_PATTERN;
+  const leg =
+    dx === 2
+      ? { x: move.from.x + Math.sign(move.to.x - move.from.x), y: move.from.y }
+      : { x: move.from.x, y: move.from.y + Math.sign(move.to.y - move.from.y) };
+  return pieceOrNull(position, leg) === null ? null : MoveReasonCode.ILLEGAL_PATTERN;
 }

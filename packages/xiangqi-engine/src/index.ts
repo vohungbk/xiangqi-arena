@@ -34,3 +34,5 @@ export {
   readAllPoints,
   readPoint,
 } from './position';
+
+export { checkBoundsAndSource } from './move-rules';

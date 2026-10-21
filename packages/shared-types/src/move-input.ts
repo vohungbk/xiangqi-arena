@@ -11,6 +11,10 @@ export enum MoveReasonCode {
   MALFORMED_INPUT = 'malformed_input',
   /** A coordinate is a whole number but outside the 9x10 board (E3). */
   OUT_OF_BOUNDS = 'out_of_bounds',
+  /** The move starts from a point with no piece (E1). */
+  EMPTY_SOURCE = 'empty_source',
+  /** The source and the target are the same point, so nothing moves. */
+  SAME_POINT = 'same_point',
 }
 
 /** The result of reading a move from input: the move, or a reason code. It never throws. */

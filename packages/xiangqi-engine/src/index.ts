@@ -37,4 +37,9 @@ export {
 
 export { checkBoundsAndSource, checkCapture, checkTurn } from './move-rules';
 
-export { checkAdvisorMove, checkGeneralMove } from './piece-rules';
+export {
+  checkAdvisorMove,
+  checkElephantMove,
+  checkGeneralMove,
+  checkHorseMove,
+} from './piece-rules';

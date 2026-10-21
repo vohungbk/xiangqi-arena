@@ -35,4 +35,4 @@ export {
   readPoint,
 } from './position';
 
-export { checkBoundsAndSource } from './move-rules';
+export { checkBoundsAndSource, checkCapture, checkTurn } from './move-rules';

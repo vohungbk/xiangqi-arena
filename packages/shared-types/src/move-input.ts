@@ -15,6 +15,10 @@ export enum MoveReasonCode {
   EMPTY_SOURCE = 'empty_source',
   /** The source and the target are the same point, so nothing moves. */
   SAME_POINT = 'same_point',
+  /** The piece that moves is not of the side to move (R8, E2). */
+  WRONG_TURN = 'wrong_turn',
+  /** The target holds a piece of the same side as the piece that moves (R9, E4). */
+  OWN_PIECE = 'own_piece',
 }
 
 /** The result of reading a move from input: the move, or a reason code. It never throws. */
